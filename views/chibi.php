@@ -382,7 +382,37 @@ $currentPage = 'avatar';
             const primaryColor = stringToColor(name);
             const centerX = size / 2;
             const centerY = size / 2;
-            const radius = size * 0.42;
+            const radius = size * 0.38; // Légèrement plus petit pour laisser place à l'anneau
+            
+            // Variables pour l'anneau (calculées ici pour être utilisées après)
+            const ringOuterRadius = size * 0.46;
+            const ringInnerRadius = size * 0.40;
+            const ringWidth = ringOuterRadius - ringInnerRadius;
+            
+            // Dessiner l'anneau en premier (derrière le badge)
+            if (showCloudy && cloudyLogo.complete) {
+                ctx.save();
+                
+                // Anneau violet
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, ringOuterRadius, 0, Math.PI * 2);
+                ctx.arc(centerX, centerY, ringInnerRadius, 0, Math.PI * 2, true);
+                ctx.fillStyle = '#8a4dfd';
+                ctx.fill();
+                
+                // Effet de brillance sur l'anneau
+                const ringGradient = ctx.createLinearGradient(0, centerY - ringOuterRadius, 0, centerY + ringOuterRadius);
+                ringGradient.addColorStop(0, 'rgba(255, 255, 255, 0.35)');
+                ringGradient.addColorStop(0.5, 'rgba(255, 255, 255, 0.05)');
+                ringGradient.addColorStop(1, 'rgba(0, 0, 0, 0.15)');
+                ctx.beginPath();
+                ctx.arc(centerX, centerY, ringOuterRadius, 0, Math.PI * 2);
+                ctx.arc(centerX, centerY, ringInnerRadius, 0, Math.PI * 2, true);
+                ctx.fillStyle = ringGradient;
+                ctx.fill();
+                
+                ctx.restore();
+            }
             
             // Style-specific rendering
             if (badgeStyle === 'modern') {
@@ -448,44 +478,39 @@ $currentPage = 'avatar';
                 ctx.fillText(job, centerX, centerY + size * 0.14);
             }
             
-            // Cloudy logo
+            // Logo Cloudy sur l'anneau (dessiné en dernier, au-dessus de tout)
             if (showCloudy && cloudyLogo.complete) {
-                const logoSize = size * 0.22;
-                const logoPadding = size * 0.04;
-                const logoX = size - logoSize - logoPadding;
-                const logoY = size - logoSize - logoPadding;
-                const logoCenterX = logoX + logoSize / 2;
-                const logoCenterY = logoY + logoSize / 2;
-                
                 ctx.save();
                 
-                // Shadow
-                ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
-                ctx.shadowBlur = size * 0.03;
-                ctx.shadowOffsetX = size * 0.01;
-                ctx.shadowOffsetY = size * 0.01;
+                // Logo positionné sur l'anneau (en bas)
+                const logoSize = ringWidth * 2.5;
+                const logoAngle = Math.PI / 2; // Position en bas (90°)
+                const logoDistance = (ringOuterRadius + ringInnerRadius) / 2;
+                const logoCenterX = centerX + Math.cos(logoAngle) * logoDistance;
+                const logoCenterY = centerY + Math.sin(logoAngle) * logoDistance;
                 
-                // White circle background
+                // Cercle blanc pour le logo
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+                ctx.shadowBlur = size * 0.015;
+                ctx.shadowOffsetY = size * 0.005;
                 ctx.beginPath();
-                ctx.arc(logoCenterX, logoCenterY, logoSize / 2 + size * 0.015, 0, Math.PI * 2);
+                ctx.arc(logoCenterX, logoCenterY, logoSize / 2 + size * 0.012, 0, Math.PI * 2);
                 ctx.fillStyle = '#ffffff';
                 ctx.fill();
                 
+                // Reset shadow et bordure violette
                 ctx.shadowColor = 'transparent';
                 ctx.shadowBlur = 0;
-                
-                // Purple border
-                ctx.beginPath();
-                ctx.arc(logoCenterX, logoCenterY, logoSize / 2 + size * 0.015, 0, Math.PI * 2);
+                ctx.shadowOffsetY = 0;
                 ctx.strokeStyle = '#8a4dfd';
                 ctx.lineWidth = size * 0.008;
                 ctx.stroke();
                 
-                // Clip and draw logo
+                // Dessiner le logo
                 ctx.beginPath();
                 ctx.arc(logoCenterX, logoCenterY, logoSize / 2, 0, Math.PI * 2);
                 ctx.clip();
-                ctx.drawImage(cloudyLogo, logoX, logoY, logoSize, logoSize);
+                ctx.drawImage(cloudyLogo, logoCenterX - logoSize / 2, logoCenterY - logoSize / 2, logoSize, logoSize);
                 
                 ctx.restore();
             }
