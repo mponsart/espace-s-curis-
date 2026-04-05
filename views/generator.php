@@ -180,17 +180,30 @@ $currentPage = 'signatures';
                         </div>
                         <span class="sm:ml-4 text-sm text-gray-500">Aperçu de la signature</span>
                     </div>
-                    <div class="flex gap-2 w-full sm:w-auto">
+                    <div class="flex gap-2 w-full sm:w-auto flex-wrap">
                         <button id="copyBtn" class="text-sm bg-speed-purple text-white px-4 py-2 rounded-lg hover:bg-speed-purple-dark transition flex-1 sm:flex-initial" title="Pour Dolibarr/BackOffice">
                             📋 Copier HTML
                         </button>
-                        <button id="downloadPngBtn" class="text-sm bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition flex-1 sm:flex-initial" title="Pour Gmail">
-                            🖼️ Télécharger PNG
+                        <button id="generateLinkBtn" class="text-sm bg-emerald-600 text-white px-4 py-2 rounded-lg hover:bg-emerald-700 transition flex-1 sm:flex-initial" title="Pour Gmail">
+                            🔗 Lien Gmail
                         </button>
                     </div>
                 </div>
                 <div id="preview" class="p-4 sm:p-6 bg-white min-h-[150px] overflow-x-auto">
                     <!-- Signature générée ici -->
+                </div>
+                
+                <!-- Lien généré -->
+                <div id="linkResult" class="hidden bg-emerald-50 border-t border-emerald-200 p-4">
+                    <div class="flex flex-col gap-2">
+                        <label class="text-xs text-emerald-700 font-medium">🔗 Lien de votre signature (à coller dans Gmail → Insérer image → Par URL) :</label>
+                        <div class="flex gap-2">
+                            <input type="text" id="linkInput" readonly class="flex-1 px-3 py-2 text-sm border border-emerald-300 rounded-lg bg-white text-gray-800 font-mono">
+                            <button id="copyLinkBtn" class="px-4 py-2 bg-emerald-600 text-white text-sm rounded-lg hover:bg-emerald-700 transition">
+                                📋 Copier
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
 
@@ -199,8 +212,8 @@ $currentPage = 'signatures';
                 <h3 class="text-white font-semibold mb-2">💡 Comment utiliser</h3>
                 <div class="grid sm:grid-cols-2 gap-4 text-sm">
                     <div class="bg-white/5 rounded-lg p-3">
-                        <p class="text-emerald-400 font-semibold mb-1">🖼️ Gmail / Outlook</p>
-                        <p class="text-gray-300">Téléchargez le PNG, puis collez l'image (Ctrl+V) dans votre signature</p>
+                        <p class="text-emerald-400 font-semibold mb-1">🔗 Gmail</p>
+                        <p class="text-gray-300">Cliquez "Lien Gmail" → Copiez l'URL → Gmail Paramètres → Signature → Insérer image → Par URL</p>
                     </div>
                     <div class="bg-white/5 rounded-lg p-3">
                         <p class="text-speed-purple font-semibold mb-1">📋 Dolibarr / BackOffice</p>
@@ -327,61 +340,87 @@ $currentPage = 'signatures';
                 selection.removeAllRanges();
                 
                 copyBtn.textContent = '✓ Copié !';
-                setTimeout(() => copyBtn.textContent = '📋 Copier', 2000);
+                setTimeout(() => copyBtn.textContent = '📋 Copier HTML', 2000);
             } catch (e) {
                 console.error(e);
             }
         });
         
-        // Download PNG button
-        const downloadPngBtn = document.getElementById('downloadPngBtn');
-        downloadPngBtn.addEventListener('click', async () => {
+        // Generate link button (for Gmail)
+        const generateLinkBtn = document.getElementById('generateLinkBtn');
+        const linkResult = document.getElementById('linkResult');
+        const linkInput = document.getElementById('linkInput');
+        const copyLinkBtn = document.getElementById('copyLinkBtn');
+        
+        generateLinkBtn.addEventListener('click', async () => {
             try {
-                downloadPngBtn.textContent = '⏳ Génération...';
-                downloadPngBtn.disabled = true;
+                generateLinkBtn.textContent = '⏳ Génération...';
+                generateLinkBtn.disabled = true;
                 
                 // Attendre que les images soient chargées
                 const images = preview.querySelectorAll('img');
                 await Promise.all(Array.from(images).map(img => {
                     if (img.complete) return Promise.resolve();
-                    return new Promise((resolve, reject) => {
+                    return new Promise((resolve) => {
                         img.onload = resolve;
-                        img.onerror = resolve; // Continue même si une image échoue
+                        img.onerror = resolve;
                     });
                 }));
                 
                 // Générer le canvas avec html2canvas
                 const canvas = await html2canvas(preview, {
                     backgroundColor: '#ffffff',
-                    scale: 2, // Meilleure qualité
+                    scale: 2,
                     useCORS: true,
                     allowTaint: true,
                     logging: false
                 });
                 
-                // Créer le lien de téléchargement
-                const link = document.createElement('a');
+                // Préparer le nom du fichier
                 const style = document.querySelector('input[name="style"]:checked').value;
                 const name = currentTab === 'personal' 
                     ? `${personalForm.firstname.value}_${personalForm.lastname.value}`.toLowerCase().replace(/\s+/g, '_')
                     : serviceForm.service.value;
-                link.download = `signature_${name}_${style}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
+                const filename = `signature_${name}_${style}`;
                 
-                downloadPngBtn.textContent = '✓ Téléchargé !';
-                setTimeout(() => {
-                    downloadPngBtn.textContent = '🖼️ Télécharger PNG';
-                    downloadPngBtn.disabled = false;
-                }, 2000);
+                // Upload vers le serveur
+                const imageData = canvas.toDataURL('image/png');
+                const response = await fetch('/upload-signature.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ image: imageData, filename: filename })
+                });
+                
+                const result = await response.json();
+                
+                if (result.success && result.url) {
+                    linkInput.value = result.url;
+                    linkResult.classList.remove('hidden');
+                    
+                    generateLinkBtn.textContent = '✓ Lien créé !';
+                    setTimeout(() => {
+                        generateLinkBtn.textContent = '🔗 Lien Gmail';
+                        generateLinkBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error(result.error || 'Erreur inconnue');
+                }
             } catch (e) {
-                console.error('Erreur PNG:', e);
-                downloadPngBtn.textContent = '❌ Erreur';
+                console.error('Erreur upload:', e);
+                generateLinkBtn.textContent = '❌ Erreur';
                 setTimeout(() => {
-                    downloadPngBtn.textContent = '🖼️ Télécharger PNG';
-                    downloadPngBtn.disabled = false;
+                    generateLinkBtn.textContent = '🔗 Lien Gmail';
+                    generateLinkBtn.disabled = false;
                 }, 2000);
             }
+        });
+        
+        // Copy link button
+        copyLinkBtn.addEventListener('click', () => {
+            linkInput.select();
+            document.execCommand('copy');
+            copyLinkBtn.textContent = '✓ Copié !';
+            setTimeout(() => copyLinkBtn.textContent = '📋 Copier', 1500);
         });
         
         // Init
