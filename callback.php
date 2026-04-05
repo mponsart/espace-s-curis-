@@ -40,6 +40,42 @@ try {
     $firstName = $nameParts[0] ?? '';
     $lastName = $nameParts[1] ?? '';
     
+    // Infos par défaut
+    $jobTitle = '';
+    $department = '';
+    $orgUnit = '';
+    
+    // Essayer de récupérer les infos depuis Directory API
+    try {
+        $serviceAccountFile = $config['google']['service_account_file'] ?? '';
+        if ($serviceAccountFile && file_exists($serviceAccountFile)) {
+            $serviceClient = new Google\Client();
+            $serviceClient->setAuthConfig($serviceAccountFile);
+            $serviceClient->setSubject($config['google']['admin_email']);
+            $serviceClient->addScope(Google\Service\Directory::ADMIN_DIRECTORY_USER_READONLY);
+            
+            $directory = new Google\Service\Directory($serviceClient);
+            $directoryUser = $directory->users->get($userInfo->email);
+            
+            // Récupérer les infos de l'annuaire
+            $orgs = $directoryUser->getOrganizations();
+            if ($orgs && count($orgs) > 0) {
+                $jobTitle = $orgs[0]['title'] ?? '';
+                $department = $orgs[0]['department'] ?? '';
+            }
+            $orgUnit = $directoryUser->getOrgUnitPath() ?? '';
+            
+            // Photo de l'utilisateur depuis Directory (meilleure qualité)
+            $thumbUrl = $directoryUser->getThumbnailPhotoUrl();
+            if ($thumbUrl) {
+                $userInfo->picture = $thumbUrl;
+            }
+        }
+    } catch (Exception $e) {
+        // Directory API non configurée ou erreur, continuer sans
+        error_log('Directory API error: ' . $e->getMessage());
+    }
+    
     // Stocker en session
     $_SESSION['user'] = [
         'email' => $userInfo->email,
@@ -47,7 +83,11 @@ try {
         'firstName' => $firstName,
         'lastName' => $lastName,
         'picture' => $userInfo->picture,
+        'jobTitle' => $jobTitle,
+        'department' => $department,
+        'orgUnit' => $orgUnit,
         'token' => $token,
+        'token_created' => time(),
     ];
     
     header('Location: /');

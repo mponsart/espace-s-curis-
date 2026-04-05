@@ -3,6 +3,7 @@
 
 # Environment / Config (contains secrets)
 config.php
+service-account.json
 
 # IDE
 .idea/
