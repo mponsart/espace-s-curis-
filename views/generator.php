@@ -90,6 +90,8 @@ $jobs = $config['jobs'] ?? [];
                         <option value="<?= htmlspecialchars($value) ?>" class="bg-gray-800"><?= htmlspecialchars($label) ?></option>
                         <?php endforeach; ?>
                     </select>
+                    <input type="text" id="customJob" placeholder="Votre poste personnalisé" 
+                        class="hidden w-full mt-2 px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-speed-purple transition">
                 </div>
                 <div>
                     <label for="email" class="block text-sm font-semibold text-gray-200 mb-2">E-mail</label>
@@ -220,11 +222,14 @@ $jobs = $config['jobs'] ?? [];
             let data;
             
             if (currentTab === 'personal') {
+                const jobSelect = personalForm.job;
+                const customJob = document.getElementById('customJob');
+                const jobValue = jobSelect.value === '__autre__' ? customJob.value : jobSelect.value;
                 data = new URLSearchParams({
                     style: style,
                     type: 'personal',
                     name: `${personalForm.firstname.value} ${personalForm.lastname.value}`.trim(),
-                    job: personalForm.job.value,
+                    job: jobValue,
                     email: personalForm.email.value
                 });
             } else {
@@ -252,7 +257,18 @@ $jobs = $config['jobs'] ?? [];
         personalForm.querySelectorAll('input').forEach(input => {
             input.addEventListener('input', updatePreview);
         });
-        personalForm.job.addEventListener('change', updatePreview);
+        personalForm.job.addEventListener('change', function() {
+            const customJobInput = document.getElementById('customJob');
+            if (this.value === '__autre__') {
+                customJobInput.classList.remove('hidden');
+                customJobInput.focus();
+            } else {
+                customJobInput.classList.add('hidden');
+                customJobInput.value = '';
+            }
+            updatePreview();
+        });
+        document.getElementById('customJob').addEventListener('input', updatePreview);
         
         // Events for service form
         serviceForm.service.addEventListener('change', updatePreview);
