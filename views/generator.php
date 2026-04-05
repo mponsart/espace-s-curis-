@@ -30,12 +30,12 @@ $jobs = $config['jobs'] ?? [];
 <body class="min-h-screen bg-gradient-to-br from-gray-900 via-purple-900 to-gray-900" style="font-family: 'Titillium Web', sans-serif;">
     <div class="container mx-auto px-4 py-8">
         <!-- Header -->
-        <div class="flex justify-between items-center mb-10">
+        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-10">
             <div class="flex items-center gap-4">
                 <img src="/assets/images/cloudy.png" alt="Groupe Speed Cloud" class="w-12 h-12 rounded-xl">
                 <div>
                     <h1 class="text-xl font-bold text-white">Signatures</h1>
-                    <p class="text-gray-400 text-sm">Groupe Speed Cloud</p>
+                    <p class="text-gray-400 text-sm">Association Groupe Speed Cloud</p>
                 </div>
             </div>
             <div class="flex items-center gap-4">
@@ -43,7 +43,7 @@ $jobs = $config['jobs'] ?? [];
                     <?php if (!empty($user['picture'])): ?>
                     <img src="<?= htmlspecialchars($user['picture']) ?>" alt="" class="w-10 h-10 rounded-full">
                     <?php endif; ?>
-                    <div class="text-right">
+                    <div class="text-right hidden sm:block">
                         <p class="text-white text-sm font-medium"><?= htmlspecialchars($user['name']) ?></p>
                         <p class="text-gray-400 text-xs"><?= htmlspecialchars($user['email']) ?></p>
                     </div>
@@ -58,18 +58,18 @@ $jobs = $config['jobs'] ?? [];
 
         <!-- Tabs -->
         <div class="max-w-4xl mx-auto mb-6">
-            <div class="flex gap-2">
-                <button id="tabPersonal" class="px-6 py-3 rounded-t-lg bg-white/10 text-white font-medium border-b-2 border-speed-purple transition">
+            <div class="flex flex-col sm:flex-row gap-2">
+                <button id="tabPersonal" class="px-6 py-3 rounded-t-lg sm:rounded-t-lg bg-white/10 text-white font-medium border-b-2 border-speed-purple transition">
                     👤 Signature Personnelle
                 </button>
-                <button id="tabService" class="px-6 py-3 rounded-t-lg bg-white/5 text-gray-400 font-medium border-b-2 border-transparent hover:text-white transition">
+                <button id="tabService" class="px-6 py-3 rounded-t-lg sm:rounded-t-lg bg-white/5 text-gray-400 font-medium border-b-2 border-transparent hover:text-white transition">
                     🏢 Signature Service
                 </button>
             </div>
         </div>
 
         <!-- Main Content -->
-        <div class="max-w-4xl mx-auto bg-white/10 backdrop-blur-lg rounded-2xl rounded-tl-none p-8 shadow-2xl border border-white/20">
+        <div class="max-w-4xl mx-auto bg-white/10 backdrop-blur-lg rounded-2xl sm:rounded-tl-none p-4 sm:p-8 shadow-2xl border border-white/20">
             
             <!-- Personal Signature Form -->
             <form id="personalForm" class="grid md:grid-cols-2 gap-6 mb-8">
@@ -120,24 +120,27 @@ $jobs = $config['jobs'] ?? [];
             
             <!-- Client Email Selection -->
             <div class="mb-8">
-                <label class="block text-sm font-semibold text-gray-200 mb-2">Client email</label>
-                <div class="grid grid-cols-3 gap-4">
+                <label class="block text-sm font-semibold text-gray-200 mb-2">Format de signature</label>
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
                     <label class="cursor-pointer">
                         <input type="radio" name="style" value="gmail" class="peer hidden" checked>
                         <div class="p-4 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
-                            <span class="text-white font-medium">Gmail</span>
+                            <span class="text-2xl block mb-1">💻</span>
+                            <span class="text-white font-medium text-sm">Gmail Desktop</span>
                         </div>
                     </label>
                     <label class="cursor-pointer">
                         <input type="radio" name="style" value="outlook" class="peer hidden">
                         <div class="p-4 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
-                            <span class="text-white font-medium">Outlook</span>
+                            <span class="text-2xl block mb-1">📧</span>
+                            <span class="text-white font-medium text-sm">Outlook</span>
                         </div>
                     </label>
                     <label class="cursor-pointer">
-                        <input type="radio" name="style" value="chatwoot" class="peer hidden">
+                        <input type="radio" name="style" value="mobile" class="peer hidden">
                         <div class="p-4 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
-                            <span class="text-white font-medium">Chatwoot</span>
+                            <span class="text-2xl block mb-1">📱</span>
+                            <span class="text-white font-medium text-sm">Gmail Mobile</span>
                         </div>
                     </label>
                 </div>
@@ -145,18 +148,20 @@ $jobs = $config['jobs'] ?? [];
 
             <!-- Preview -->
             <div class="bg-white rounded-xl overflow-hidden shadow-lg">
-                <div class="bg-gray-100 px-4 py-2 border-b flex items-center justify-between">
+                <div class="bg-gray-100 px-4 py-2 border-b flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2">
                     <div class="flex items-center gap-2">
-                        <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                        <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
-                        <div class="w-3 h-3 rounded-full bg-green-400"></div>
-                        <span class="ml-4 text-sm text-gray-500">Aperçu de la signature</span>
+                        <div class="hidden sm:flex gap-1">
+                            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+                        </div>
+                        <span class="sm:ml-4 text-sm text-gray-500">Aperçu de la signature</span>
                     </div>
-                    <button id="copyBtn" class="text-sm bg-speed-purple text-white px-3 py-1 rounded hover:bg-speed-purple-dark transition">
-                        Copier
+                    <button id="copyBtn" class="text-sm bg-speed-purple text-white px-4 py-2 rounded-lg hover:bg-speed-purple-dark transition w-full sm:w-auto">
+                        📋 Copier la signature
                     </button>
                 </div>
-                <div id="preview" class="p-6 bg-white min-h-[200px]">
+                <div id="preview" class="p-4 sm:p-6 bg-white min-h-[150px] overflow-x-auto">
                     <!-- Signature générée ici -->
                 </div>
             </div>
@@ -175,7 +180,7 @@ $jobs = $config['jobs'] ?? [];
 
         <!-- Footer -->
         <div class="text-center mt-8 text-gray-400 text-sm">
-            © <?= date('Y') ?> Groupe Speed Cloud - Tous droits réservés
+            © <?= date('Y') ?> Association Groupe Speed Cloud - Tous droits réservés
         </div>
     </div>
 
