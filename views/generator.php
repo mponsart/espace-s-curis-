@@ -159,10 +159,10 @@ $currentPage = 'signatures';
                         </div>
                     </label>
                     <label class="cursor-pointer">
-                        <input type="radio" name="style" value="mobile" class="peer hidden">
+                        <input type="radio" name="style" value="dolibarr" class="peer hidden">
                         <div class="p-4 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
-                            <span class="text-2xl block mb-1">📱</span>
-                            <span class="text-white font-medium text-sm">Gmail Mobile</span>
+                            <span class="text-2xl block mb-1">🏢</span>
+                            <span class="text-white font-medium text-sm">BackOffice</span>
                         </div>
                     </label>
                 </div>

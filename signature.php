@@ -42,7 +42,7 @@ if ($type === 'service') {
 $company = $config['company'];
 
 // Valider le style (sécurité)
-$allowedStyles = ['gmail', 'outlook', 'mobile'];
+$allowedStyles = ['gmail', 'outlook', 'dolibarr'];
 if (!in_array($style, $allowedStyles)) {
     $style = 'gmail';
 }
