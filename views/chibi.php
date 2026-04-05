@@ -8,7 +8,7 @@ $currentPage = 'avatar';
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Créer mon Avatar - Groupe Speed Cloud</title>
+    <title>Badge Professionnel - Groupe Speed Cloud</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -32,25 +32,22 @@ $currentPage = 'avatar';
     <nav class="bg-black/30 backdrop-blur-md border-b border-white/10 sticky top-0 z-50">
         <div class="container mx-auto px-4">
             <div class="flex items-center justify-between h-16">
-                <!-- Logo -->
                 <a href="/" class="flex items-center gap-3 hover:opacity-80 transition">
                     <img src="/assets/images/cloudy.png" alt="" class="w-10 h-10 rounded-lg">
                     <span class="text-white font-bold text-lg hidden sm:block">Groupe Speed Cloud</span>
                 </a>
                 
-                <!-- Nav Links -->
                 <div class="flex items-center gap-1 sm:gap-2">
                     <a href="/" class="px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition <?= $currentPage === 'signatures' ? 'bg-speed-purple text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' ?>">
                         <span class="hidden sm:inline">✍️ Signatures</span>
                         <span class="sm:hidden">✍️</span>
                     </a>
                     <a href="/chibi.php" class="px-3 sm:px-4 py-2 rounded-lg text-sm font-medium transition <?= $currentPage === 'avatar' ? 'bg-speed-purple text-white' : 'text-gray-300 hover:bg-white/10 hover:text-white' ?>">
-                        <span class="hidden sm:inline">✨ Avatar</span>
-                        <span class="sm:hidden">✨</span>
+                        <span class="hidden sm:inline">🏷️ Badge</span>
+                        <span class="sm:hidden">🏷️</span>
                     </a>
                 </div>
                 
-                <!-- User Menu -->
                 <div class="flex items-center gap-3">
                     <?php if (!empty($user['picture'])): ?>
                     <img src="<?= htmlspecialchars($user['picture']) ?>" alt="" class="w-8 h-8 rounded-full border-2 border-white/20">
@@ -70,284 +67,160 @@ $currentPage = 'avatar';
     </nav>
 
     <div class="container mx-auto px-4 py-8">
-        <!-- Page Header -->
-        <div class="max-w-5xl mx-auto mb-8">
-            <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">✨ Créer mon Avatar</h1>
-            <p class="text-gray-400">Personnalisez votre avatar unique pour l'association</p>
+        <div class="max-w-4xl mx-auto mb-8">
+            <h1 class="text-2xl sm:text-3xl font-bold text-white mb-2">🏷️ Badge Professionnel</h1>
+            <p class="text-gray-400">Créez votre badge professionnel pour l'association</p>
         </div>
 
-        <!-- Main Content -->
-        <div class="max-w-5xl mx-auto">
+        <div class="max-w-4xl mx-auto">
             <div class="grid lg:grid-cols-2 gap-8">
                 
-                <!-- Customization Panel -->
+                <!-- Options -->
                 <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
-                    <h2 class="text-xl font-bold text-white mb-6">✨ Personnalise ton Avatar</h2>
+                    <h2 class="text-xl font-bold text-white mb-6">⚙️ Personnalisation</h2>
                     
-                    <!-- Mode Selector -->
-                    <div class="flex gap-2 mb-6">
-                        <button type="button" id="modeChihi" class="flex-1 py-2 px-4 rounded-lg bg-speed-purple text-white font-medium transition">
-                            🎨 Chibi
-                        </button>
-                        <button type="button" id="modeBadge" class="flex-1 py-2 px-4 rounded-lg bg-white/10 text-gray-300 font-medium hover:bg-white/20 transition">
-                            🏷️ Badge Speed
-                        </button>
-                    </div>
-                    
-                    <form id="chibiForm" class="space-y-5">
-                        <!-- Seed / Name -->
+                    <form id="badgeForm" class="space-y-5">
+                        <!-- Name -->
                         <div>
-                            <label class="block text-sm font-semibold text-gray-200 mb-2">Nom (génère un avatar unique)</label>
-                            <input type="text" id="seed" value="<?= htmlspecialchars($user['name']) ?>" 
+                            <label class="block text-sm font-semibold text-gray-200 mb-2">Nom complet</label>
+                            <input type="text" id="name" value="<?= htmlspecialchars($user['name']) ?>" 
                                 class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-speed-purple transition">
                         </div>
-
-                        <!-- Chibi Options -->
-                        <div id="chibiOptions">
-                            <!-- Style -->
-                            <div class="mb-5">
-                                <label class="block text-sm font-semibold text-gray-200 mb-2">Style d'avatar</label>
-                                <select id="style" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-speed-purple transition cursor-pointer">
-                                    <option value="lorelei" class="bg-gray-800">Lorelei (Chibi mignon)</option>
-                                    <option value="adventurer" class="bg-gray-800">Adventurer (Cartoon)</option>
-                                    <option value="avataaars" class="bg-gray-800">Avataaars (Style Memoji)</option>
-                                    <option value="big-smile" class="bg-gray-800">Big Smile (Souriant)</option>
-                                    <option value="notionists" class="bg-gray-800">Notionists (Minimaliste)</option>
-                                    <option value="fun-emoji" class="bg-gray-800">Fun Emoji</option>
-                                    <option value="thumbs" class="bg-gray-800">Thumbs (Pouces)</option>
-                                </select>
-                            </div>
-                        </div>
                         
-                        <!-- Badge Options (hidden by default) -->
-                        <div id="badgeOptions" class="hidden space-y-5">
-                            <!-- Badge Style -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-200 mb-2">Style du badge</label>
-                                <div class="grid grid-cols-3 gap-2">
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="badgeStyle" value="modern" class="peer hidden" checked>
-                                        <div class="p-3 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
-                                            <span class="text-white text-sm">Moderne</span>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="badgeStyle" value="gradient" class="peer hidden">
-                                        <div class="p-3 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
-                                            <span class="text-white text-sm">Dégradé</span>
-                                        </div>
-                                    </label>
-                                    <label class="cursor-pointer">
-                                        <input type="radio" name="badgeStyle" value="neon" class="peer hidden">
-                                        <div class="p-3 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
-                                            <span class="text-white text-sm">Néon</span>
-                                        </div>
-                                    </label>
-                                </div>
-                            </div>
-                            
-                            <!-- Job Title for Badge -->
-                            <div>
-                                <label class="block text-sm font-semibold text-gray-200 mb-2">Poste affiché</label>
-                                <select id="badgeJob" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-speed-purple transition cursor-pointer">
-                                    <option value="" class="bg-gray-800">Sans poste</option>
-                                    <?php 
-                                    $jobs = $config['jobs'] ?? [];
-                                    foreach ($jobs as $key => $label): 
-                                        if ($key && $key !== '__autre__'):
-                                    ?>
-                                    <option value="<?= htmlspecialchars($label) ?>" class="bg-gray-800"><?= htmlspecialchars($label) ?></option>
-                                    <?php endif; endforeach; ?>
-                                </select>
-                            </div>
-                            
-                            <!-- Show Cloudy -->
-                            <div class="flex items-center gap-3">
-                                <input type="checkbox" id="showCloudy" checked class="w-5 h-5 rounded border-white/20 bg-white/10 text-speed-purple focus:ring-speed-purple cursor-pointer">
-                                <label for="showCloudy" class="text-sm text-gray-200 cursor-pointer">Afficher le logo Cloudy</label>
+                        <!-- Job Title -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-200 mb-2">Poste</label>
+                            <select id="badgeJob" class="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-speed-purple transition cursor-pointer">
+                                <option value="" class="bg-gray-800">Sans poste</option>
+                                <?php 
+                                $jobs = $config['jobs'] ?? [];
+                                foreach ($jobs as $key => $label): 
+                                    if ($key && $key !== '__autre__'):
+                                ?>
+                                <option value="<?= htmlspecialchars($label) ?>" class="bg-gray-800"><?= htmlspecialchars($label) ?></option>
+                                <?php endif; endforeach; ?>
+                            </select>
+                        </div>
+
+                        <!-- Badge Style -->
+                        <div>
+                            <label class="block text-sm font-semibold text-gray-200 mb-2">Style</label>
+                            <div class="grid grid-cols-3 gap-2">
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="badgeStyle" value="modern" class="peer hidden" checked>
+                                    <div class="p-3 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
+                                        <span class="text-white text-sm">Moderne</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="badgeStyle" value="gradient" class="peer hidden">
+                                    <div class="p-3 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
+                                        <span class="text-white text-sm">Dégradé</span>
+                                    </div>
+                                </label>
+                                <label class="cursor-pointer">
+                                    <input type="radio" name="badgeStyle" value="neon" class="peer hidden">
+                                    <div class="p-3 bg-white/5 border-2 border-white/10 rounded-lg text-center peer-checked:border-speed-purple peer-checked:bg-speed-purple/20 transition">
+                                        <span class="text-white text-sm">Néon</span>
+                                    </div>
+                                </label>
                             </div>
                         </div>
 
                         <!-- Background Color -->
                         <div>
-                            <label class="block text-sm font-semibold text-gray-200 mb-2">Couleur de fond</label>
+                            <label class="block text-sm font-semibold text-gray-200 mb-2">Fond</label>
                             <div class="grid grid-cols-6 gap-2">
                                 <label class="cursor-pointer">
                                     <input type="radio" name="bgColor" value="transparent" class="peer hidden" checked>
                                     <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-speed-purple transition bg-[url('data:image/svg+xml,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%228%22%20height%3D%228%22%3E%3Crect%20width%3D%224%22%20height%3D%224%22%20fill%3D%22%23ccc%22%2F%3E%3Crect%20x%3D%224%22%20y%3D%224%22%20width%3D%224%22%20height%3D%224%22%20fill%3D%22%23ccc%22%2F%3E%3C%2Fsvg%3E')]"></div>
                                 </label>
                                 <label class="cursor-pointer">
+                                    <input type="radio" name="bgColor" value="ffffff" class="peer hidden">
+                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-speed-purple transition" style="background: #ffffff;"></div>
+                                </label>
+                                <label class="cursor-pointer">
                                     <input type="radio" name="bgColor" value="8a4dfd" class="peer hidden">
                                     <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-white transition" style="background: #8a4dfd;"></div>
                                 </label>
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="bgColor" value="6366f1" class="peer hidden">
-                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-white transition" style="background: #6366f1;"></div>
+                                    <input type="radio" name="bgColor" value="1a1a2e" class="peer hidden">
+                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-white transition" style="background: #1a1a2e;"></div>
                                 </label>
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="bgColor" value="ec4899" class="peer hidden">
-                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-white transition" style="background: #ec4899;"></div>
+                                    <input type="radio" name="bgColor" value="0f172a" class="peer hidden">
+                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-white transition" style="background: #0f172a;"></div>
                                 </label>
                                 <label class="cursor-pointer">
-                                    <input type="radio" name="bgColor" value="10b981" class="peer hidden">
-                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-white transition" style="background: #10b981;"></div>
-                                </label>
-                                <label class="cursor-pointer">
-                                    <input type="radio" name="bgColor" value="f59e0b" class="peer hidden">
-                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-white transition" style="background: #f59e0b;"></div>
+                                    <input type="radio" name="bgColor" value="f8fafc" class="peer hidden">
+                                    <div class="w-full aspect-square rounded-lg border-2 border-white/20 peer-checked:border-speed-purple transition" style="background: #f8fafc;"></div>
                                 </label>
                             </div>
                         </div>
 
                         <!-- Size -->
                         <div>
-                            <label class="block text-sm font-semibold text-gray-200 mb-2">Taille : <span id="sizeValue">200</span>px</label>
-                            <input type="range" id="size" min="64" max="512" value="200" 
+                            <label class="block text-sm font-semibold text-gray-200 mb-2">Taille : <span id="sizeValue">256</span>px</label>
+                            <input type="range" id="size" min="128" max="512" value="256" 
                                 class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-speed-purple">
                         </div>
 
-                        <!-- Flip -->
+                        <!-- Show Cloudy -->
                         <div class="flex items-center gap-3">
-                            <input type="checkbox" id="flip" class="w-5 h-5 rounded border-white/20 bg-white/10 text-speed-purple focus:ring-speed-purple cursor-pointer">
-                            <label for="flip" class="text-sm text-gray-200 cursor-pointer">Retourner horizontalement</label>
+                            <input type="checkbox" id="showCloudy" checked class="w-5 h-5 rounded border-white/20 bg-white/10 text-speed-purple focus:ring-speed-purple cursor-pointer">
+                            <label for="showCloudy" class="text-sm text-gray-200 cursor-pointer">Afficher l'anneau Groupe Speed</label>
                         </div>
-
-                        <!-- Rotate -->
-                        <div>
-                            <label class="block text-sm font-semibold text-gray-200 mb-2">Rotation : <span id="rotateValue">0</span>°</label>
-                            <input type="range" id="rotate" min="0" max="360" value="0" step="15"
-                                class="w-full h-2 bg-white/20 rounded-lg appearance-none cursor-pointer accent-speed-purple">
-                        </div>
-
-                        <!-- Random Button -->
-                        <button type="button" id="randomBtn" class="w-full py-3 bg-white/10 border border-white/20 rounded-lg text-white font-medium hover:bg-white/20 transition flex items-center justify-center gap-2">
-                            🎲 Générer aléatoirement
-                        </button>
                     </form>
                 </div>
 
-                <!-- Preview Panel -->
+                <!-- Preview -->
                 <div class="bg-white/10 backdrop-blur-lg rounded-2xl p-6 shadow-2xl border border-white/20">
                     <h2 class="text-xl font-bold text-white mb-6">👀 Aperçu</h2>
                     
-                    <!-- Avatar Preview -->
                     <div class="flex justify-center mb-6">
-                        <div id="chibiPreview" class="bg-white/5 rounded-2xl p-4 border border-white/10">
-                            <img id="chibiImage" src="" alt="Ton Avatar" class="mx-auto rounded-xl">
-                            <canvas id="badgeCanvas" class="hidden mx-auto rounded-xl"></canvas>
+                        <div class="bg-white/5 rounded-2xl p-4 border border-white/10">
+                            <canvas id="badgeCanvas" class="mx-auto rounded-xl"></canvas>
                         </div>
                     </div>
 
-                    <!-- Download Buttons -->
                     <div class="space-y-3">
                         <button id="downloadPng" class="w-full py-3 bg-speed-purple text-white rounded-lg font-semibold hover:bg-speed-purple-dark transition flex items-center justify-center gap-2">
                             📥 Télécharger PNG
                         </button>
-                        <button id="downloadSvg" class="w-full py-3 bg-white/10 border border-white/20 rounded-lg text-white font-medium hover:bg-white/20 transition flex items-center justify-center gap-2">
-                            📄 Télécharger SVG
-                        </button>
-                        <button id="copyUrl" class="w-full py-3 bg-white/10 border border-white/20 rounded-lg text-white font-medium hover:bg-white/20 transition flex items-center justify-center gap-2">
-                            🔗 Copier l'URL
-                        </button>
                     </div>
 
-                    <!-- Tips -->
                     <div class="mt-6 p-4 bg-speed-purple/20 rounded-lg border border-speed-purple/30">
-                        <h3 class="text-white font-semibold mb-2">💡 Astuces</h3>
+                        <h3 class="text-white font-semibold mb-2">💡 Utilisation</h3>
                         <ul class="text-gray-300 text-sm space-y-1 list-disc list-inside">
-                            <li><b>Chibi</b> : 7 styles différents via DiceBear</li>
-                            <li><b>Badge Speed</b> : Avatar unique avec tes initiales + poste</li>
-                            <li>Le badge inclut le logo Cloudy !</li>
-                            <li>Utilise l'avatar dans ta signature email</li>
+                            <li>Photo de profil Gmail / Slack</li>
+                            <li>Avatar pour les outils internes</li>
+                            <li>Badge d'identification</li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Footer -->
         <div class="text-center mt-8 text-gray-400 text-sm">
             © <?= date('Y') ?> Association Groupe Speed Cloud - Tous droits réservés
         </div>
     </div>
 
     <script>
-        // Elements
-        const chibiImage = document.getElementById('chibiImage');
         const badgeCanvas = document.getElementById('badgeCanvas');
-        const seedInput = document.getElementById('seed');
-        const styleSelect = document.getElementById('style');
+        const nameInput = document.getElementById('name');
         const sizeInput = document.getElementById('size');
         const sizeValue = document.getElementById('sizeValue');
-        const rotateInput = document.getElementById('rotate');
-        const rotateValue = document.getElementById('rotateValue');
-        const flipCheckbox = document.getElementById('flip');
-        const modeChihi = document.getElementById('modeChihi');
-        const modeBadge = document.getElementById('modeBadge');
-        const chibiOptions = document.getElementById('chibiOptions');
-        const badgeOptions = document.getElementById('badgeOptions');
         
-        let currentMode = 'chibi';
         const cloudyLogo = new Image();
+        cloudyLogo.crossOrigin = 'anonymous';
         cloudyLogo.src = 'https://sign.groupe-speed.cloud/assets/images/cloudy.png';
+        cloudyLogo.onload = () => drawBadge();
         
-        // Mode switching
-        modeChihi.addEventListener('click', () => {
-            currentMode = 'chibi';
-            modeChihi.classList.add('bg-speed-purple', 'text-white');
-            modeChihi.classList.remove('bg-white/10', 'text-gray-300');
-            modeBadge.classList.remove('bg-speed-purple', 'text-white');
-            modeBadge.classList.add('bg-white/10', 'text-gray-300');
-            chibiOptions.classList.remove('hidden');
-            badgeOptions.classList.add('hidden');
-            chibiImage.classList.remove('hidden');
-            badgeCanvas.classList.add('hidden');
-            updatePreview();
-        });
-        
-        modeBadge.addEventListener('click', () => {
-            currentMode = 'badge';
-            modeBadge.classList.add('bg-speed-purple', 'text-white');
-            modeBadge.classList.remove('bg-white/10', 'text-gray-300');
-            modeChihi.classList.remove('bg-speed-purple', 'text-white');
-            modeChihi.classList.add('bg-white/10', 'text-gray-300');
-            badgeOptions.classList.remove('hidden');
-            chibiOptions.classList.add('hidden');
-            chibiImage.classList.add('hidden');
-            badgeCanvas.classList.remove('hidden');
-            updatePreview();
-        });
-        
-        // Generate Chibi URL
-        function generateAvatarUrl(format = 'svg') {
-            const seed = encodeURIComponent(seedInput.value || 'default');
-            const style = styleSelect.value;
-            const size = sizeInput.value;
-            const bgColor = document.querySelector('input[name="bgColor"]:checked').value;
-            const flip = flipCheckbox.checked;
-            const rotate = rotateInput.value;
-            
-            let url = `https://api.dicebear.com/7.x/${style}/${format}?seed=${seed}&size=${size}`;
-            
-            if (bgColor !== 'transparent') {
-                url += `&backgroundColor=${bgColor}`;
-            }
-            if (flip) {
-                url += '&flip=true';
-            }
-            if (rotate !== '0') {
-                url += `&rotate=${rotate}`;
-            }
-            
-            return url;
-        }
-        
-        // Get initials from name
         function getInitials(name) {
             return name.split(' ').map(word => word[0]).join('').toUpperCase().substring(0, 2);
         }
         
-        // Generate unique color from name
         function stringToColor(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
@@ -357,7 +230,6 @@ $currentPage = 'avatar';
             return colors[Math.abs(hash) % colors.length];
         }
         
-        // Lighten color by percentage
         function lightenColor(hex, percent) {
             const num = parseInt(hex.replace('#', ''), 16);
             const amt = Math.round(2.55 * percent);
@@ -367,7 +239,6 @@ $currentPage = 'avatar';
             return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
         }
         
-        // Darken color by percentage
         function darkenColor(hex, percent) {
             const num = parseInt(hex.replace('#', ''), 16);
             const amt = Math.round(2.55 * percent);
@@ -377,10 +248,9 @@ $currentPage = 'avatar';
             return '#' + (0x1000000 + R * 0x10000 + G * 0x100 + B).toString(16).slice(1);
         }
         
-        // Draw Badge
         function drawBadge() {
             const size = parseInt(sizeInput.value);
-            const name = seedInput.value || 'Membre';
+            const name = nameInput.value || 'Membre';
             const initials = getInitials(name);
             const badgeStyle = document.querySelector('input[name="badgeStyle"]:checked')?.value || 'modern';
             const job = document.getElementById('badgeJob')?.value || '';
@@ -404,11 +274,11 @@ $currentPage = 'avatar';
             const centerY = size / 2;
             const radius = size * 0.36;
             
-            // Configuration anneau premium
+            // Ring config
             const ringWidth = size * 0.045;
             const ringRadius = radius + ringWidth / 2 + size * 0.015;
             
-            // ===== OMBRE GLOBALE DU BADGE =====
+            // Global shadow
             if (showCloudy) {
                 ctx.save();
                 ctx.shadowColor = 'rgba(138, 77, 253, 0.4)';
@@ -421,20 +291,19 @@ $currentPage = 'avatar';
                 ctx.restore();
             }
             
-            // ===== ANNEAU PREMIUM =====
+            // Premium ring
             if (showCloudy && cloudyLogo.complete) {
                 ctx.save();
                 
-                // Dégradé pour l'anneau (effet métallique/premium)
                 const ringGradient = ctx.createLinearGradient(
                     centerX - ringRadius, centerY - ringRadius,
                     centerX + ringRadius, centerY + ringRadius
                 );
-                ringGradient.addColorStop(0, '#a855f7');    // Plus clair
-                ringGradient.addColorStop(0.3, '#8a4dfd');  // Couleur principale
-                ringGradient.addColorStop(0.5, '#7c3aed'); 
+                ringGradient.addColorStop(0, '#a855f7');
+                ringGradient.addColorStop(0.3, '#8a4dfd');
+                ringGradient.addColorStop(0.5, '#7c3aed');
                 ringGradient.addColorStop(0.7, '#8a4dfd');
-                ringGradient.addColorStop(1, '#6d28d9');    // Plus foncé
+                ringGradient.addColorStop(1, '#6d28d9');
                 
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, ringRadius + ringWidth / 2, 0, Math.PI * 2);
@@ -442,7 +311,7 @@ $currentPage = 'avatar';
                 ctx.fillStyle = ringGradient;
                 ctx.fill();
                 
-                // Reflet de lumière sur l'anneau (effet 3D)
+                // Highlight
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, ringRadius + ringWidth / 2 - 1, 0, Math.PI * 2);
                 ctx.arc(centerX, centerY, ringRadius - ringWidth / 2 + 1, 0, Math.PI * 2, true);
@@ -456,8 +325,7 @@ $currentPage = 'avatar';
                 ctx.restore();
             }
             
-            // ===== CERCLE PRINCIPAL PREMIUM =====
-            // Ombre douce du cercle
+            // Main circle shadow
             ctx.save();
             ctx.shadowColor = 'rgba(0, 0, 0, 0.2)';
             ctx.shadowBlur = size * 0.03;
@@ -470,7 +338,6 @@ $currentPage = 'avatar';
             
             // Style-specific rendering
             if (badgeStyle === 'modern') {
-                // Cercle avec dégradé subtil
                 const bgGradient = ctx.createRadialGradient(
                     centerX - radius * 0.3, centerY - radius * 0.3, 0,
                     centerX, centerY, radius * 1.2
@@ -484,7 +351,6 @@ $currentPage = 'avatar';
                 ctx.fillStyle = bgGradient;
                 ctx.fill();
                 
-                // Reflet de lumière en haut
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
                 const highlight = ctx.createRadialGradient(
@@ -498,7 +364,6 @@ $currentPage = 'avatar';
                 ctx.fill();
                 
             } else if (badgeStyle === 'gradient') {
-                // Dégradé diagonal premium
                 const gradient = ctx.createLinearGradient(
                     centerX - radius, centerY - radius,
                     centerX + radius, centerY + radius
@@ -512,7 +377,6 @@ $currentPage = 'avatar';
                 ctx.fillStyle = gradient;
                 ctx.fill();
                 
-                // Reflet subtil
                 ctx.beginPath();
                 ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
                 const highlight = ctx.createRadialGradient(
@@ -526,7 +390,6 @@ $currentPage = 'avatar';
                 ctx.fill();
                 
             } else if (badgeStyle === 'neon') {
-                // Effet néon premium
                 ctx.save();
                 ctx.shadowColor = primaryColor;
                 ctx.shadowBlur = size * 0.1;
@@ -537,7 +400,6 @@ $currentPage = 'avatar';
                 ctx.stroke();
                 ctx.restore();
                 
-                // Second glow
                 ctx.save();
                 ctx.shadowColor = '#8a4dfd';
                 ctx.shadowBlur = size * 0.05;
@@ -548,7 +410,6 @@ $currentPage = 'avatar';
                 ctx.stroke();
                 ctx.restore();
                 
-                // Inner fill avec dégradé
                 const innerGradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 0.85);
                 innerGradient.addColorStop(0, 'rgba(138, 77, 253, 0.15)');
                 innerGradient.addColorStop(1, 'rgba(138, 77, 253, 0.05)');
@@ -579,36 +440,31 @@ $currentPage = 'avatar';
                 ctx.fillText(job, centerX, centerY + size * 0.14);
             }
             
-            // ===== LOGO CLOUDY PREMIUM =====
+            // Cloudy logo on ring
             if (showCloudy && cloudyLogo.complete) {
                 ctx.save();
                 
-                // Position : bas-droite, sur l'anneau
                 const logoSize = size * 0.16;
-                const logoAngle = Math.PI / 4 + Math.PI / 2; // 135° (bas-droite)
+                const logoAngle = Math.PI / 4 + Math.PI / 2;
                 const logoCenterX = centerX + Math.cos(logoAngle) * ringRadius;
                 const logoCenterY = centerY + Math.sin(logoAngle) * ringRadius;
                 const logoBgRadius = logoSize / 2 + size * 0.018;
                 
-                // Ombre du logo
                 ctx.shadowColor = 'rgba(0, 0, 0, 0.35)';
                 ctx.shadowBlur = size * 0.025;
                 ctx.shadowOffsetX = size * 0.005;
                 ctx.shadowOffsetY = size * 0.008;
                 
-                // Fond blanc du logo
                 ctx.beginPath();
                 ctx.arc(logoCenterX, logoCenterY, logoBgRadius, 0, Math.PI * 2);
                 ctx.fillStyle = '#ffffff';
                 ctx.fill();
                 
-                // Reset shadow
                 ctx.shadowColor = 'transparent';
                 ctx.shadowBlur = 0;
                 ctx.shadowOffsetX = 0;
                 ctx.shadowOffsetY = 0;
                 
-                // Bordure dégradée premium
                 const borderGradient = ctx.createLinearGradient(
                     logoCenterX - logoBgRadius, logoCenterY - logoBgRadius,
                     logoCenterX + logoBgRadius, logoCenterY + logoBgRadius
@@ -620,7 +476,6 @@ $currentPage = 'avatar';
                 ctx.lineWidth = size * 0.012;
                 ctx.stroke();
                 
-                // Dessiner le logo Cloudy
                 ctx.beginPath();
                 ctx.arc(logoCenterX, logoCenterY, logoSize / 2, 0, Math.PI * 2);
                 ctx.clip();
@@ -636,116 +491,32 @@ $currentPage = 'avatar';
             }
         }
         
-        function updatePreview() {
-            if (currentMode === 'chibi') {
-                const url = generateAvatarUrl('svg');
-                chibiImage.src = url;
-                chibiImage.style.width = sizeInput.value + 'px';
-                chibiImage.style.height = sizeInput.value + 'px';
-            } else {
-                drawBadge();
-            }
-        }
-        
         // Event listeners
-        seedInput.addEventListener('input', updatePreview);
-        styleSelect.addEventListener('change', updatePreview);
+        nameInput.addEventListener('input', drawBadge);
         sizeInput.addEventListener('input', () => {
             sizeValue.textContent = sizeInput.value;
-            updatePreview();
+            drawBadge();
         });
-        rotateInput.addEventListener('input', () => {
-            rotateValue.textContent = rotateInput.value;
-            updatePreview();
-        });
-        flipCheckbox.addEventListener('change', updatePreview);
         document.querySelectorAll('input[name="bgColor"]').forEach(input => {
-            input.addEventListener('change', updatePreview);
+            input.addEventListener('change', drawBadge);
         });
         document.querySelectorAll('input[name="badgeStyle"]').forEach(input => {
-            input.addEventListener('change', updatePreview);
+            input.addEventListener('change', drawBadge);
         });
-        document.getElementById('badgeJob')?.addEventListener('change', updatePreview);
-        document.getElementById('showCloudy')?.addEventListener('change', updatePreview);
-        
-        // Random button
-        document.getElementById('randomBtn').addEventListener('click', () => {
-            const randomSeed = Math.random().toString(36).substring(2, 10);
-            seedInput.value = randomSeed;
-            
-            if (currentMode === 'chibi') {
-                const styles = ['lorelei', 'adventurer', 'avataaars', 'big-smile', 'notionists', 'fun-emoji', 'thumbs'];
-                styleSelect.value = styles[Math.floor(Math.random() * styles.length)];
-                rotateInput.value = 0;
-                rotateValue.textContent = '0';
-                flipCheckbox.checked = Math.random() > 0.5;
-            } else {
-                const badgeStyles = document.querySelectorAll('input[name="badgeStyle"]');
-                badgeStyles[Math.floor(Math.random() * badgeStyles.length)].checked = true;
-            }
-            
-            const colors = document.querySelectorAll('input[name="bgColor"]');
-            colors[Math.floor(Math.random() * colors.length)].checked = true;
-            
-            updatePreview();
-        });
+        document.getElementById('badgeJob')?.addEventListener('change', drawBadge);
+        document.getElementById('showCloudy')?.addEventListener('change', drawBadge);
         
         // Download PNG
-        document.getElementById('downloadPng').addEventListener('click', async () => {
-            if (currentMode === 'chibi') {
-                const url = generateAvatarUrl('png');
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = `chibi-${seedInput.value || 'avatar'}.png`;
-                link.click();
-            } else {
-                const link = document.createElement('a');
-                link.href = badgeCanvas.toDataURL('image/png');
-                link.download = `badge-speed-${seedInput.value || 'membre'}.png`;
-                link.click();
-            }
+        document.getElementById('downloadPng').addEventListener('click', () => {
+            const link = document.createElement('a');
+            const name = nameInput.value.replace(/\s+/g, '_').toLowerCase() || 'badge';
+            link.download = `badge_${name}.png`;
+            link.href = badgeCanvas.toDataURL('image/png');
+            link.click();
         });
         
-        // Download SVG
-        document.getElementById('downloadSvg').addEventListener('click', async () => {
-            if (currentMode === 'chibi') {
-                const url = generateAvatarUrl('svg');
-                const response = await fetch(url);
-                const blob = await response.blob();
-                const link = document.createElement('a');
-                link.href = URL.createObjectURL(blob);
-                link.download = `chibi-${seedInput.value || 'avatar'}.svg`;
-                link.click();
-            } else {
-                // For badge, convert canvas to PNG (SVG not available for canvas)
-                const link = document.createElement('a');
-                link.href = badgeCanvas.toDataURL('image/png');
-                link.download = `badge-speed-${seedInput.value || 'membre'}.png`;
-                link.click();
-            }
-        });
-        
-        // Copy URL
-        document.getElementById('copyUrl').addEventListener('click', async () => {
-            let url;
-            if (currentMode === 'chibi') {
-                url = generateAvatarUrl('svg');
-            } else {
-                url = badgeCanvas.toDataURL('image/png');
-            }
-            await navigator.clipboard.writeText(url);
-            const btn = document.getElementById('copyUrl');
-            btn.innerHTML = '✓ Copié !';
-            setTimeout(() => {
-                btn.innerHTML = '🔗 Copier l\'URL';
-            }, 2000);
-        });
-        
-        // Init when logo loads
-        cloudyLogo.onload = updatePreview;
-        updatePreview();
+        // Init
+        drawBadge();
     </script>
 </body>
 </html>
