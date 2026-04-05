@@ -450,14 +450,43 @@ $currentPage = 'avatar';
             
             // Cloudy logo
             if (showCloudy && cloudyLogo.complete) {
-                const logoSize = size * 0.18;
+                const logoSize = size * 0.22;
+                const logoPadding = size * 0.04;
+                const logoX = size - logoSize - logoPadding;
+                const logoY = size - logoSize - logoPadding;
+                const logoCenterX = logoX + logoSize / 2;
+                const logoCenterY = logoY + logoSize / 2;
+                
                 ctx.save();
+                
+                // Shadow
+                ctx.shadowColor = 'rgba(0, 0, 0, 0.3)';
+                ctx.shadowBlur = size * 0.03;
+                ctx.shadowOffsetX = size * 0.01;
+                ctx.shadowOffsetY = size * 0.01;
+                
+                // White circle background
                 ctx.beginPath();
-                ctx.arc(size - logoSize/2 - size*0.05, size - logoSize/2 - size*0.05, logoSize/2 + 2, 0, Math.PI * 2);
+                ctx.arc(logoCenterX, logoCenterY, logoSize / 2 + size * 0.015, 0, Math.PI * 2);
                 ctx.fillStyle = '#ffffff';
                 ctx.fill();
+                
+                ctx.shadowColor = 'transparent';
+                ctx.shadowBlur = 0;
+                
+                // Purple border
+                ctx.beginPath();
+                ctx.arc(logoCenterX, logoCenterY, logoSize / 2 + size * 0.015, 0, Math.PI * 2);
+                ctx.strokeStyle = '#8a4dfd';
+                ctx.lineWidth = size * 0.008;
+                ctx.stroke();
+                
+                // Clip and draw logo
+                ctx.beginPath();
+                ctx.arc(logoCenterX, logoCenterY, logoSize / 2, 0, Math.PI * 2);
                 ctx.clip();
-                ctx.drawImage(cloudyLogo, size - logoSize - size*0.05, size - logoSize - size*0.05, logoSize, logoSize);
+                ctx.drawImage(cloudyLogo, logoX, logoY, logoSize, logoSize);
+                
                 ctx.restore();
             }
         }
