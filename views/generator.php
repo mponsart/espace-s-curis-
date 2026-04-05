@@ -376,23 +376,9 @@ $currentPage = 'signatures';
                     logging: false
                 });
                 
-                // Redimensionner pour Gmail (500px = taille idéale pour signature lisible)
-                const targetWidth = 500;
+                // Garder la taille originale (pas de redimensionnement)
+                // Le scale 2 donne une bonne qualité
                 let finalCanvas = canvas;
-                
-                if (canvas.width > targetWidth) {
-                    const ratio = targetWidth / canvas.width;
-                    const newHeight = Math.round(canvas.height * ratio);
-                    
-                    finalCanvas = document.createElement('canvas');
-                    finalCanvas.width = targetWidth;
-                    finalCanvas.height = newHeight;
-                    
-                    const ctx = finalCanvas.getContext('2d');
-                    ctx.imageSmoothingEnabled = true;
-                    ctx.imageSmoothingQuality = 'high';
-                    ctx.drawImage(canvas, 0, 0, targetWidth, newHeight);
-                }
                 
                 // Préparer le nom du fichier
                 const style = document.querySelector('input[name="style"]:checked').value;
