@@ -53,6 +53,36 @@ final class Database
             $pdo->exec($schema);
         }
 
+        self::ensureSchema($pdo);
+
         return $pdo;
+    }
+
+    private static function ensureSchema(PDO $pdo): void
+    {
+        $columns = $pdo->query("PRAGMA table_info('volunteers')")->fetchAll();
+        if ($columns === false || $columns === []) {
+            return;
+        }
+
+        $names = array_map(static fn (array $column): string => (string) ($column['name'] ?? ''), $columns);
+        $toEnsure = [
+            'availability_notes' => 'TEXT',
+            'skills' => 'TEXT',
+            'tshirt_size' => 'TEXT',
+            'dietary_preferences' => 'TEXT',
+            'allergies' => 'TEXT',
+            'has_driving_license' => 'INTEGER NOT NULL DEFAULT 0',
+            'has_vehicle' => 'INTEGER NOT NULL DEFAULT 0',
+            'notes' => 'TEXT',
+            'validated_at' => 'TEXT',
+        ];
+
+        foreach ($toEnsure as $name => $definition) {
+            if (in_array($name, $names, true)) {
+                continue;
+            }
+            $pdo->exec('ALTER TABLE volunteers ADD COLUMN ' . $name . ' ' . $definition . ';');
+        }
     }
 }

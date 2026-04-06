@@ -81,7 +81,7 @@ final class VolunteerModel extends BaseModel
         return (int) $this->db->lastInsertId();
     }
 
-    public function updateForm(int $id, array $data): void
+    public function updateForm(int $id, array $data): bool
     {
         $statement = $this->db->prepare(
             'UPDATE volunteers
@@ -98,8 +98,18 @@ final class VolunteerModel extends BaseModel
                  phone = :phone,
                  emergency_name = :emergency_name,
                  emergency_phone = :emergency_phone,
-                 consent_rgpd = :consent_rgpd
-             WHERE id = :id'
+                 availability_notes = :availability_notes,
+                 skills = :skills,
+                 tshirt_size = :tshirt_size,
+                 dietary_preferences = :dietary_preferences,
+                 allergies = :allergies,
+                 has_driving_license = :has_driving_license,
+                 has_vehicle = :has_vehicle,
+                 notes = :notes,
+                 consent_rgpd = :consent_rgpd,
+                 validated_at = COALESCE(validated_at, CURRENT_TIMESTAMP)
+             WHERE id = :id
+               AND (validated_at IS NULL OR validated_at = "")'
         );
         $statement->execute([
             'id' => $id,
@@ -116,8 +126,18 @@ final class VolunteerModel extends BaseModel
             'phone' => $data['phone'] ?: null,
             'emergency_name' => $data['emergency_name'] ?: null,
             'emergency_phone' => $data['emergency_phone'] ?: null,
+            'availability_notes' => $data['availability_notes'] ?: null,
+            'skills' => $data['skills'] ?: null,
+            'tshirt_size' => $data['tshirt_size'] ?: null,
+            'dietary_preferences' => $data['dietary_preferences'] ?: null,
+            'allergies' => $data['allergies'] ?: null,
+            'has_driving_license' => (int) $data['has_driving_license'],
+            'has_vehicle' => (int) $data['has_vehicle'],
+            'notes' => $data['notes'] ?: null,
             'consent_rgpd' => (int) $data['consent_rgpd'],
         ]);
+
+        return $statement->rowCount() > 0;
     }
 
     public function delete(int $id): void

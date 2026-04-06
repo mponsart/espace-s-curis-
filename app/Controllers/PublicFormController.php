@@ -28,6 +28,7 @@ final class PublicFormController extends BaseController
             $this->abort(404, 'Ce lien a expiré ou est invalide.');
         }
 
+        $locked = isset($volunteer['validated_at']) && (string) $volunteer['validated_at'] !== '';
         $values = [
             'last_name' => $volunteer['last_name'] ?? '',
             'first_name' => $volunteer['first_name'] ?? '',
@@ -42,20 +43,39 @@ final class PublicFormController extends BaseController
             'phone' => $volunteer['phone'] ?? '',
             'emergency_name' => $volunteer['emergency_name'] ?? '',
             'emergency_phone' => $volunteer['emergency_phone'] ?? '',
+            'availability_notes' => $volunteer['availability_notes'] ?? '',
+            'skills' => $volunteer['skills'] ?? '',
+            'tshirt_size' => $volunteer['tshirt_size'] ?? '',
+            'dietary_preferences' => $volunteer['dietary_preferences'] ?? '',
+            'allergies' => $volunteer['allergies'] ?? '',
+            'has_driving_license' => (int) ($volunteer['has_driving_license'] ?? 0),
+            'has_vehicle' => (int) ($volunteer['has_vehicle'] ?? 0),
+            'notes' => $volunteer['notes'] ?? '',
             'consent_rgpd' => (int) ($volunteer['consent_rgpd'] ?? 0),
         ];
         $errors = [];
         $saved = false;
 
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            if ($locked) {
+                Session::flash('error', 'Ce formulaire a déjà été validé et ne peut plus être modifié.');
+            } else {
             $this->validateCsrf();
             $values = $this->sanitize($_POST);
             $errors = $this->validate($values);
 
             if ($errors === []) {
-                $this->volunteers->updateForm((int) $volunteer['id'], $values);
-                Session::flash('success', 'Merci, vos informations ont bien été enregistrées.');
-                $saved = true;
+                    $updated = $this->volunteers->updateForm((int) $volunteer['id'], $values);
+                    if ($updated) {
+                        Session::flash('success', 'Merci, vos informations ont bien été enregistrées.');
+                        $saved = true;
+                        $locked = true;
+                        $volunteer['validated_at'] = (new \DateTimeImmutable('now'))->format('Y-m-d H:i:s');
+                    } else {
+                        Session::flash('error', 'Ce formulaire a déjà été validé et ne peut plus être modifié.');
+                        $locked = true;
+                    }
+                }
             }
         }
 
@@ -65,6 +85,8 @@ final class PublicFormController extends BaseController
             'values' => $values,
             'errors' => $errors,
             'saved' => $saved,
+            'locked' => $locked,
+            'validatedAt' => $volunteer['validated_at'] ?? null,
         ], 'layouts/public');
     }
 
@@ -84,6 +106,14 @@ final class PublicFormController extends BaseController
             'phone' => trim((string) ($input['phone'] ?? '')),
             'emergency_name' => trim((string) ($input['emergency_name'] ?? '')),
             'emergency_phone' => trim((string) ($input['emergency_phone'] ?? '')),
+            'availability_notes' => trim((string) ($input['availability_notes'] ?? '')),
+            'skills' => trim((string) ($input['skills'] ?? '')),
+            'tshirt_size' => trim((string) ($input['tshirt_size'] ?? '')),
+            'dietary_preferences' => trim((string) ($input['dietary_preferences'] ?? '')),
+            'allergies' => trim((string) ($input['allergies'] ?? '')),
+            'has_driving_license' => isset($input['has_driving_license']) ? 1 : 0,
+            'has_vehicle' => isset($input['has_vehicle']) ? 1 : 0,
+            'notes' => trim((string) ($input['notes'] ?? '')),
             'consent_rgpd' => isset($input['consent_rgpd']) ? 1 : 0,
         ];
     }
@@ -92,6 +122,7 @@ final class PublicFormController extends BaseController
     {
         $errors = [];
         $allowedGenders = ['', 'female', 'male', 'other', 'prefer_not_to_say'];
+        $allowedTshirtSizes = ['', 'XS', 'S', 'M', 'L', 'XL', 'XXL'];
 
         if ($values['last_name'] === '') {
             $errors[] = 'Le nom est obligatoire.';
@@ -107,6 +138,10 @@ final class PublicFormController extends BaseController
 
         if (!in_array($values['gender'], $allowedGenders, true)) {
             $errors[] = 'Le genre sélectionné est invalide.';
+        }
+
+        if (!in_array($values['tshirt_size'], $allowedTshirtSizes, true)) {
+            $errors[] = 'La taille de t-shirt sélectionnée est invalide.';
         }
 
         if ($values['birth_date'] !== '' && \DateTimeImmutable::createFromFormat('Y-m-d', $values['birth_date']) === false) {

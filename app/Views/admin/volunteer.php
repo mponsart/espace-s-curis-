@@ -45,7 +45,22 @@
                 <div class="flex justify-between gap-4"><dt class="text-slate-500">Jeton</dt><dd class="font-medium text-slate-900">Masqué pour des raisons de sécurité</dd></div>
                 <div class="flex justify-between gap-4"><dt class="text-slate-500">Expire le</dt><dd class="font-medium text-slate-900"><?= e($volunteer['token_expires_at']) ?></dd></div>
                 <div class="flex justify-between gap-4"><dt class="text-slate-500">Consentement</dt><dd class="font-medium text-slate-900"><?= (int) $volunteer['consent_rgpd'] === 1 ? 'Oui' : 'Non' ?></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Validé le</dt><dd class="font-medium text-slate-900"><?= e($volunteer['validated_at'] ?? '') ?></dd></div>
                 <div class="flex justify-between gap-4"><dt class="text-slate-500">Créé le</dt><dd class="font-medium text-slate-900"><?= e($volunteer['created_at']) ?></dd></div>
+            </dl>
+        </section>
+
+        <section class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200 lg:col-span-2">
+            <h3 class="text-lg font-bold text-slate-900">Informations complémentaires</h3>
+            <dl class="mt-4 grid gap-3 text-sm sm:grid-cols-2">
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Disponibilités</dt><dd class="font-medium text-slate-900"><?= nl2br(e($volunteer['availability_notes'] ?? '')) ?></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Compétences</dt><dd class="font-medium text-slate-900"><?= nl2br(e($volunteer['skills'] ?? '')) ?></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Taille t-shirt</dt><dd class="font-medium text-slate-900"><?= e($volunteer['tshirt_size'] ?? '') ?></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Régime alimentaire</dt><dd class="font-medium text-slate-900"><?= e($volunteer['dietary_preferences'] ?? '') ?></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Allergies</dt><dd class="font-medium text-slate-900"><?= e($volunteer['allergies'] ?? '') ?></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Permis</dt><dd class="font-medium text-slate-900"><?= (int) ($volunteer['has_driving_license'] ?? 0) === 1 ? 'Oui' : 'Non' ?></dd></div>
+                <div class="flex justify-between gap-4"><dt class="text-slate-500">Véhicule</dt><dd class="font-medium text-slate-900"><?= (int) ($volunteer['has_vehicle'] ?? 0) === 1 ? 'Oui' : 'Non' ?></dd></div>
+                <div class="flex justify-between gap-4 sm:col-span-2"><dt class="text-slate-500">Commentaire</dt><dd class="font-medium text-slate-900"><?= nl2br(e($volunteer['notes'] ?? '')) ?></dd></div>
             </dl>
         </section>
     </div>

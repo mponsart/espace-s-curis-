@@ -22,9 +22,18 @@ CREATE TABLE IF NOT EXISTS volunteers (
     phone TEXT,
     emergency_name TEXT,
     emergency_phone TEXT,
+    availability_notes TEXT,
+    skills TEXT,
+    tshirt_size TEXT,
+    dietary_preferences TEXT,
+    allergies TEXT,
+    has_driving_license INTEGER NOT NULL DEFAULT 0 CHECK (has_driving_license IN (0, 1)),
+    has_vehicle INTEGER NOT NULL DEFAULT 0 CHECK (has_vehicle IN (0, 1)),
+    notes TEXT,
     token TEXT NOT NULL UNIQUE,
     token_expires_at TEXT NOT NULL,
     consent_rgpd INTEGER NOT NULL DEFAULT 0 CHECK (consent_rgpd IN (0, 1)),
+    validated_at TEXT,
     created_at TEXT NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
