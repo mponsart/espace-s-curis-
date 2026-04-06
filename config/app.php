@@ -17,6 +17,11 @@ return [
         'redirect_uri' => 'https://site.com/callback.php',
         'hosted_domain' => '',
     ],
+    'mail' => [
+        'enabled' => false,
+        'from_email' => 'no-reply@site.com',
+        'from_name' => 'Collecte Benevoles',
+    ],
     'session' => [
         'name' => 'volunteers_secure',
         'lifetime' => 7200,
