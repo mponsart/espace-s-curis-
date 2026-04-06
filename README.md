@@ -17,6 +17,7 @@ Application web simple et sécurisée pour collecter les informations de bénév
 - Dashboard admin
 - Gestion des bénévoles : liste, détail, suppression
 - Invitation par lien sécurisé (token 64 chars, expiration 7 jours)
+- Envoi d'email au bénévole à la création de l'invitation (candidature acceptée + lien de complétion)
 - Formulaire public : `/form.php?token=...`
 - Validation serveur + CSRF + consentement RGPD obligatoire
 - Export CSV
@@ -54,6 +55,14 @@ sqlite3 database/database.sqlite < database/schema.sql
 - `google.client_id` et `google.client_secret`
 - `google.redirect_uri` : doit pointer vers `/callback.php`
 - `google.hosted_domain` : laisser vide pour autoriser tous les domaines Google, ou définir un domaine précis
+- `mail.enabled` : `true` pour activer l'envoi d'email
+- `mail.from_email` : adresse expéditeur (ex: `no-reply@votre-domaine.com`)
+- `mail.from_name` : nom expéditeur affiché
+- `mail.smtp.host` : serveur SMTP (ex: `smtp.votre-fournisseur.com`)
+- `mail.smtp.port` : port SMTP (`587` TLS ou `465` SSL)
+- `mail.smtp.encryption` : `tls`, `ssl` ou vide
+- `mail.smtp.auth` : `true` si authentification requise
+- `mail.smtp.username` / `mail.smtp.password` : identifiants SMTP
 
 4. Vérifier que l'hôte web pointe vers la racine du projet et que `mod_rewrite` est actif (Apache).
 
@@ -113,6 +122,14 @@ Sans SSH :
 - `db.driver` : `sqlite`
 - `db.path` : `database/database.sqlite`
 - `google.redirect_uri` : `https://votre-domaine.com/callback.php`
+- `mail.enabled` : `true`
+- `mail.from_email` : adresse expéditeur valide du domaine
+- `mail.from_name` : nom affiché dans l'email
+- `mail.smtp.host` : serveur SMTP fourni par l'hébergeur
+- `mail.smtp.port` : `587` (TLS) recommandé
+- `mail.smtp.encryption` : `tls`
+- `mail.smtp.auth` : `true`
+- `mail.smtp.username` / `mail.smtp.password` : compte SMTP
 
 ### 6) Configurer OAuth Google pour le domaine de prod
 
@@ -197,10 +214,11 @@ Important : pour OAuth Google, la redirection doit correspondre exactement à l'
 
 1. Un admin se connecte via Google
 2. Dans `invite.php`, il saisit un email et génère un lien
-3. Le lien contient un token unique expirant sous 7 jours
-4. Le bénévole remplit le formulaire public
-5. Les données sont validées et enregistrées en base
-6. L'admin retrouve la fiche dans `volunteers.php`
+3. Un email est envoyé au bénévole pour confirmer que sa candidature est acceptée et demander de compléter ses informations
+4. Le lien contient un token unique expirant sous 7 jours
+5. Le bénévole remplit le formulaire public
+6. Les données sont validées et enregistrées en base
+7. L'admin retrouve la fiche dans `volunteers.php`
 
 ## Sécurité implémentée
 
@@ -245,7 +263,11 @@ database/
 
 ## Charte graphique
 
-L'interface actuelle suit une direction SaaS propre, responsive, avec Tailwind CDN et palette bleu/cyan.
+L'interface actuelle suit la charte Speed Cloud avec Tailwind CDN :
+
+- Police : Titillium Web
+- Palette : `#f1e7fd`, `#d8bdfa`, `#8a4dfd`, `#592aa9`, `#290654`, `#130326`
+- Logo affiché globalement dans les layouts admin et public
 
 Si vous voulez l'aligner strictement sur votre charte :
 
@@ -275,6 +297,7 @@ php -l index.php auth.php callback.php logout.php dashboard.php volunteers.php v
 - Redirection infinie vers login : vérifier `config/app.php` et session PHP
 - Erreur DB : vérifier `pdo_sqlite`, droits d'ecriture et présence de `database/database.sqlite`
 - Token invalide : vérifier la date système serveur + expiration `token_expires_at`
+- Echec SMTP : vérifier `mail.smtp.host/port/encryption`, identifiants et ouverture du port sortant chez l'hébergeur
 
 ## Notes
 

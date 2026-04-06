@@ -1,8 +1,8 @@
 <section class="space-y-8">
     <?php require app()->basePath('app/Views/partials/flash.php'); ?>
 
-    <div class="rounded-[2rem] bg-gradient-to-r from-slate-950 via-sky-900 to-cyan-700 p-8 text-white shadow-xl">
-        <p class="text-sm uppercase tracking-[0.35em] text-cyan-200">Administration</p>
+    <div class="rounded-[2rem] bg-gradient-to-r from-brand-950 via-brand-900 to-brand-700 p-8 text-white shadow-xl shadow-brand-900/35">
+        <p class="text-sm uppercase tracking-[0.35em] text-brand-100">Administration</p>
         <h2 class="mt-4 text-3xl font-extrabold sm:text-4xl">Bonjour <?= e($user['name']) ?></h2>
         <p class="mt-3 max-w-2xl text-sm text-slate-200 sm:text-base">Gérez les invitations, suivez les réponses et exportez les fiches bénévoles depuis un espace simple et sécurisé.</p>
     </div>
@@ -14,7 +14,7 @@
         </article>
         <article class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200">
             <p class="text-sm font-medium text-slate-500">Invitations rapides</p>
-            <a href="<?= e(url('invite.php')) ?>" class="mt-4 inline-flex rounded-2xl bg-sky-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 hover:bg-sky-600">Créer un lien d'invitation</a>
+            <a href="<?= e(url('invite.php')) ?>" class="mt-4 inline-flex rounded-2xl bg-brand-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-700/30 hover:bg-brand-700">Créer un lien d'invitation</a>
         </article>
         <article class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200">
             <p class="text-sm font-medium text-slate-500">Export</p>
@@ -28,7 +28,7 @@
                 <h3 class="text-xl font-bold text-slate-900">Dernières fiches créées</h3>
                 <p class="text-sm text-slate-500">Aperçu des fiches bénévoles les plus récentes.</p>
             </div>
-            <a href="<?= e(url('volunteers.php')) ?>" class="text-sm font-semibold text-sky-700 hover:text-sky-900">Voir tout</a>
+            <a href="<?= e(url('volunteers.php')) ?>" class="text-sm font-semibold text-brand-700 hover:text-brand-900">Voir tout</a>
         </div>
 
         <div class="mt-6 overflow-hidden rounded-2xl border border-slate-200">

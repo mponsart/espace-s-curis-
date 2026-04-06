@@ -6,7 +6,7 @@
             <h2 class="text-3xl font-extrabold text-slate-900">Bénévoles</h2>
             <p class="mt-2 text-sm text-slate-500">Liste complète des invitations et des réponses reçues.</p>
         </div>
-        <a href="<?= e(url('invite.php')) ?>" class="inline-flex rounded-2xl bg-sky-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 hover:bg-sky-600">Créer un lien</a>
+        <a href="<?= e(url('invite.php')) ?>" class="inline-flex rounded-2xl bg-brand-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-700/30 hover:bg-brand-700">Créer un lien</a>
     </div>
 
     <div class="overflow-hidden rounded-[2rem] bg-white shadow-sm ring-1 ring-slate-200">
@@ -57,7 +57,7 @@
     <?php if ($pagination['pages'] > 1): ?>
         <nav class="flex items-center justify-center gap-2">
             <?php for ($page = 1; $page <= $pagination['pages']; $page++): ?>
-                <a href="?page=<?= e((string) $page) ?>" class="rounded-xl px-4 py-2 text-sm font-semibold <?= $page === $pagination['page'] ? 'bg-slate-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-slate-50' ?>">
+                <a href="?page=<?= e((string) $page) ?>" class="rounded-xl px-4 py-2 text-sm font-semibold <?= $page === $pagination['page'] ? 'bg-brand-900 text-white' : 'bg-white text-slate-700 ring-1 ring-slate-200 hover:bg-brand-50' ?>">
                     <?= e((string) $page) ?>
                 </a>
             <?php endfor; ?>

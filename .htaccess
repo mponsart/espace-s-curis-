@@ -1,22 +1,28 @@
-# Enable rewrite engine
+DirectoryIndex index.php
+
+<IfModule mod_rewrite.c>
 RewriteEngine On
 
 # Redirect to HTTPS
 RewriteCond %{HTTPS} off
-RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
-# Redirect to index.php if no file specified
-DirectoryIndex index.php
-
-# Block access to sensitive files and folders
+# Block access to sensitive folders
 RewriteRule ^(app|config|database|vendor)/ - [F,L,NC]
 
-<FilesMatch "^(composer\.(json|lock)|config\.php|\.env)$">
-    Require all denied
-</FilesMatch>
-
 # Block access to .git
-RedirectMatch 404 /\.git
+RewriteRule (^|/)\.git - [F,L]
+</IfModule>
+
+<FilesMatch "^(composer\.(json|lock)|config\.php|\.env)$">
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
+</FilesMatch>
 
 # Security headers
 <IfModule mod_headers.c>
@@ -28,9 +34,4 @@ RedirectMatch 404 /\.git
     Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.googleusercontent.com https://lh3.googleusercontent.com; connect-src 'self' https://accounts.google.com; form-action 'self' https://accounts.google.com; frame-ancestors 'none'; base-uri 'self'"
 </IfModule>
 
-# PHP settings
-<IfModule mod_php.c>
-    php_value session.cookie_httponly 1
-    php_value session.cookie_secure 1
-    php_value session.use_strict_mode 1
-</IfModule>
+# If your host does not allow php_value in .htaccess, use .user.ini instead.

@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace App\Controllers;
 
 use App\Core\Auth;
+use App\Core\Mailer;
 use App\Core\Security;
 use App\Core\Session;
 use App\Models\VolunteerModel;
@@ -87,7 +88,14 @@ final class AdminController extends BaseController
             $expiresAt = (new \DateTimeImmutable('+7 days'))->format('Y-m-d H:i:s');
             $this->volunteers->createInvitation($email, $token, $expiresAt);
             $generatedLink = url('form.php?token=' . urlencode($token));
-            Session::flash('success', 'Lien d\'invitation genere.');
+
+            $mailError = null;
+            if (Mailer::sendInvitation($email, $generatedLink, $expiresAt, $mailError)) {
+                Session::flash('success', 'Lien genere et email envoye au benevole.');
+            } else {
+                Session::flash('error', 'Invitation creee mais email non envoye. ' . ($mailError ?? 'Verifiez la configuration mail.'));
+            }
+
             clear_old();
         }
 
