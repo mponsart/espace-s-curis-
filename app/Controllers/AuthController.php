@@ -42,7 +42,7 @@ final class AuthController extends BaseController
         Session::remove('oauth_state');
 
         if ($state === '' || $code === '' || $expectedState === '' || !hash_equals($expectedState, $state)) {
-            $this->abort(400, 'Reponse OAuth invalide.');
+            $this->abort(400, 'Réponse OAuth invalide.');
         }
 
         $profile = $this->oauth->fetchUser($code);
@@ -50,7 +50,7 @@ final class AuthController extends BaseController
         if ($hostedDomain !== '') {
             $emailDomain = (string) substr(strrchr($profile['email'], '@') ?: '', 1);
             if (strcasecmp($emailDomain, $hostedDomain) !== 0) {
-                $this->abort(403, 'Adresse Google non autorisee.');
+                $this->abort(403, 'Adresse Google non autorisée.');
             }
         }
 
@@ -63,7 +63,7 @@ final class AuthController extends BaseController
         }
 
         Auth::login($user);
-        Session::flash('success', 'Connexion Google reussie.');
+        Session::flash('success', 'Connexion Google réussie.');
         $this->redirect('dashboard.php');
     }
 

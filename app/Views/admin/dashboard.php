@@ -18,7 +18,10 @@
         </article>
         <article class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200">
             <p class="text-sm font-medium text-slate-500">Export</p>
-            <a href="<?= e(url('export-volunteers.php')) ?>" class="mt-4 inline-flex rounded-2xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Télécharger le CSV</a>
+            <div class="mt-4 flex flex-wrap gap-3">
+                <a href="<?= e(url('export-volunteers.php')) ?>" class="inline-flex rounded-2xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Télécharger le CSV</a>
+                <a href="<?= e(url('export-volunteers-pdf.php')) ?>" class="inline-flex rounded-2xl bg-brand-900 px-4 py-3 text-sm font-semibold text-white hover:bg-brand-700">Télécharger le PDF</a>
+            </div>
         </article>
     </div>
 

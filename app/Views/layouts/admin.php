@@ -34,7 +34,7 @@
     <div class="flex min-h-screen flex-col lg:flex-row">
         <aside class="w-full bg-brand-950 px-6 py-8 text-brand-50 lg:min-h-screen lg:w-72">
             <div class="mb-8">
-                <img src="<?= e(url('assets/images/cloudy.png')) ?>" alt="Logo" class="h-12 w-auto">
+                <img src="<?= e(url('assets/images/cloudy.png')) ?>" alt="Logo" class="h-12 w-auto rounded-xl bg-white/10 p-1 ring-1 ring-white/20">
                 <p class="text-sm uppercase tracking-[0.3em] text-brand-100">Admin</p>
                 <h1 class="mt-3 text-2xl font-extrabold"><?= e(config('app.name')) ?></h1>
                 <p class="mt-2 text-sm text-brand-100/75">Collecte sécurisée des informations bénévoles.</p>
@@ -45,6 +45,7 @@
                 <a href="<?= e(url('volunteers.php')) ?>" class="block rounded-2xl px-4 py-3 text-sm font-semibold hover:bg-brand-900">Bénévoles</a>
                 <a href="<?= e(url('invite.php')) ?>" class="block rounded-2xl px-4 py-3 text-sm font-semibold hover:bg-brand-900">Créer un lien</a>
                 <a href="<?= e(url('export-volunteers.php')) ?>" class="block rounded-2xl px-4 py-3 text-sm font-semibold hover:bg-brand-900">Exporter CSV</a>
+                <a href="<?= e(url('export-volunteers-pdf.php')) ?>" class="block rounded-2xl px-4 py-3 text-sm font-semibold hover:bg-brand-900">Exporter PDF</a>
             </nav>
 
             <?php $user = current_user(); ?>

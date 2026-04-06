@@ -25,7 +25,7 @@ final class PublicFormController extends BaseController
 
         $volunteer = $this->volunteers->findByToken($token);
         if ($volunteer === null) {
-            $this->abort(404, 'Ce lien a expire ou est invalide.');
+            $this->abort(404, 'Ce lien a expiré ou est invalide.');
         }
 
         $values = [
@@ -54,13 +54,13 @@ final class PublicFormController extends BaseController
 
             if ($errors === []) {
                 $this->volunteers->updateForm((int) $volunteer['id'], $values);
-                Session::flash('success', 'Merci, vos informations ont bien ete enregistrees.');
+                Session::flash('success', 'Merci, vos informations ont bien été enregistrées.');
                 $saved = true;
             }
         }
 
         $this->render('public/form', [
-            'pageTitle' => 'Formulaire benevole',
+            'pageTitle' => 'Formulaire bénévole',
             'token' => $token,
             'values' => $values,
             'errors' => $errors,
@@ -98,15 +98,15 @@ final class PublicFormController extends BaseController
         }
 
         if ($values['first_name'] === '') {
-            $errors[] = 'Le prenom est obligatoire.';
+            $errors[] = 'Le prénom est obligatoire.';
         }
 
         if (!filter_var($values['email'], FILTER_VALIDATE_EMAIL)) {
-            $errors[] = 'Une adresse email valide est obligatoire.';
+            $errors[] = 'Une adresse e-mail valide est obligatoire.';
         }
 
         if (!in_array($values['gender'], $allowedGenders, true)) {
-            $errors[] = 'Le genre selectionne est invalide.';
+            $errors[] = 'Le genre sélectionné est invalide.';
         }
 
         if ($values['birth_date'] !== '' && \DateTimeImmutable::createFromFormat('Y-m-d', $values['birth_date']) === false) {
@@ -114,7 +114,7 @@ final class PublicFormController extends BaseController
         }
 
         if ($values['consent_rgpd'] !== 1) {
-            $errors[] = 'Vous devez accepter le traitement de vos donnees.';
+            $errors[] = 'Vous devez accepter le traitement de vos données.';
         }
 
         return $errors;

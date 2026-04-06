@@ -65,7 +65,7 @@
                         <input id="nationality" name="nationality" value="<?= e((string) $values['nationality']) ?>" class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-brand-500">
                     </div>
                     <div class="sm:col-span-2">
-                        <label for="email" class="mb-2 block text-sm font-semibold text-slate-200">Email</label>
+                        <label for="email" class="mb-2 block text-sm font-semibold text-slate-200">E-mail</label>
                         <input id="email" name="email" type="email" value="<?= e((string) $values['email']) ?>" required class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-brand-500">
                     </div>
                     <div class="sm:col-span-2">
@@ -86,7 +86,7 @@
                     </div>
                     <div></div>
                     <div>
-                        <label for="emergency_name" class="mb-2 block text-sm font-semibold text-slate-200">Contact urgence</label>
+                        <label for="emergency_name" class="mb-2 block text-sm font-semibold text-slate-200">Contact d'urgence</label>
                         <input id="emergency_name" name="emergency_name" value="<?= e((string) $values['emergency_name']) ?>" class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-brand-500">
                     </div>
                     <div>
