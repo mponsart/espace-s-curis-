@@ -3,4 +3,4 @@ declare(strict_types=1);
 
 $app = require __DIR__ . '/app/bootstrap.php';
 
-(new App\Controllers\AuthController($app))->callback();
+(new App\Controllers\AdminController($app))->dashboard();

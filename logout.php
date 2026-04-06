@@ -1,4 +1,6 @@
 <?php
-session_start();
-session_destroy();
-header('Location: /');
+declare(strict_types=1);
+
+$app = require __DIR__ . '/app/bootstrap.php';
+
+(new App\Controllers\AuthController($app))->logout();

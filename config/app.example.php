@@ -15,7 +15,7 @@ return [
         'client_id' => 'VOTRE_CLIENT_ID.apps.googleusercontent.com',
         'client_secret' => 'VOTRE_CLIENT_SECRET',
         'redirect_uri' => 'https://site.com/callback.php',
-        'hosted_domain' => 'groupe-speed.cloud',
+        'hosted_domain' => '',
     ],
     'session' => [
         'name' => 'volunteers_secure',

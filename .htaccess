@@ -8,16 +8,12 @@ RewriteRule ^(.*)$ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 # Redirect to index.php if no file specified
 DirectoryIndex index.php
 
-# Block access to sensitive files
-<FilesMatch "^(config\.php|composer\.(json|lock))$">
-    Order allow,deny
-    Deny from all
-</FilesMatch>
+# Block access to sensitive files and folders
+RewriteRule ^(app|config|database|vendor)/ - [F,L,NC]
 
-# Block access to vendor directory
-<IfModule mod_rewrite.c>
-    RewriteRule ^vendor/ - [F,L]
-</IfModule>
+<FilesMatch "^(composer\.(json|lock)|config\.php|\.env)$">
+    Require all denied
+</FilesMatch>
 
 # Block access to .git
 RedirectMatch 404 /\.git
@@ -25,8 +21,11 @@ RedirectMatch 404 /\.git
 # Security headers
 <IfModule mod_headers.c>
     Header set X-Content-Type-Options "nosniff"
-    Header set X-Frame-Options "SAMEORIGIN"
+    Header set X-Frame-Options "DENY"
     Header set X-XSS-Protection "1; mode=block"
+    Header set Referrer-Policy "strict-origin-when-cross-origin"
+    Header set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+    Header set Content-Security-Policy "default-src 'self'; script-src 'self' https://cdn.tailwindcss.com 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.googleusercontent.com https://lh3.googleusercontent.com; connect-src 'self' https://accounts.google.com; form-action 'self' https://accounts.google.com; frame-ancestors 'none'; base-uri 'self'"
 </IfModule>
 
 # PHP settings

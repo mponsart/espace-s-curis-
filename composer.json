@@ -1,14 +1,14 @@
 {
-    "name": "groupe-speed-cloud/signatures",
-    "description": "Générateur de signatures email avec authentification Google",
+    "name": "groupe-speed-cloud/collecte-benevoles",
+    "description": "Collecte sécurisée d'informations bénévoles avec Google OAuth",
     "type": "project",
     "require": {
-        "php": ">=8.0",
+        "php": ">=8.3",
         "google/apiclient": "^2.15"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "App\\": "app/"
         }
     }
 }
