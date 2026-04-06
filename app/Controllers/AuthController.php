@@ -50,8 +50,12 @@ final class AuthController extends BaseController
         if ($hostedDomain !== '') {
             $emailDomain = (string) substr(strrchr($profile['email'], '@') ?: '', 1);
             if (strcasecmp($emailDomain, $hostedDomain) !== 0) {
-                $this->abort(403, 'Adresse Google non autorisée.');
+                $this->denyAdminAccess();
             }
+        }
+
+        if (!$this->isAllowedAdminEmail((string) $profile['email'])) {
+            $this->denyAdminAccess();
         }
 
         $user = $this->users->findByEmail($profile['email']);
@@ -71,5 +75,44 @@ final class AuthController extends BaseController
     {
         Auth::logout();
         $this->redirect('auth.php');
+    }
+
+    private function isAllowedAdminEmail(string $email): bool
+    {
+        $allowed = $this->app->config('google.allowed_admins', []);
+        if (!is_array($allowed) || $allowed === []) {
+            // Liste vide => pas de restriction supplémentaire.
+            return true;
+        }
+
+        $normalizedEmail = strtolower(trim($email));
+        $localPart = strtolower((string) strstr($normalizedEmail, '@', true));
+
+        foreach ($allowed as $entry) {
+            if (!is_string($entry)) {
+                continue;
+            }
+
+            $candidate = strtolower(trim($entry));
+            if ($candidate === '') {
+                continue;
+            }
+
+            // Autorise soit une adresse complète, soit uniquement le local-part (ex: prenom.nom).
+            if ($candidate === $normalizedEmail || $candidate === $localPart) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    private function denyAdminAccess(): never
+    {
+        http_response_code(403);
+        $this->render('public/unauthorized', [
+            'pageTitle' => 'Accès non autorisé',
+        ], 'layouts/public');
+        exit;
     }
 }

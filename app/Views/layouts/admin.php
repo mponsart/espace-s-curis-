@@ -55,7 +55,7 @@
                         <img src="<?= e($user['avatar'] ?: 'https://placehold.co/96x96') ?>" alt="Avatar" class="h-12 w-12 rounded-2xl object-cover">
                         <div>
                             <p class="font-semibold"><?= e($user['name']) ?></p>
-                            <p class="text-sm text-brand-100/70"><?= e($user['email']) ?></p>
+                            <p class="text-sm text-brand-100/70">Administrateur</p>
                         </div>
                     </div>
                     <a href="<?= e(url('logout.php')) ?>" class="mt-4 inline-flex rounded-xl border border-brand-700 px-4 py-2 text-sm font-semibold text-brand-50 hover:bg-brand-700">Se déconnecter</a>

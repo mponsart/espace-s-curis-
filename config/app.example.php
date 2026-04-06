@@ -16,6 +16,13 @@ return [
         'client_secret' => 'VOTRE_CLIENT_SECRET',
         'redirect_uri' => 'https://site.com/callback.php',
         'hosted_domain' => '',
+        // Liste blanche optionnelle pour l'admin.
+        // Accepte soit "prenom.nom" (partie avant @), soit une adresse complète.
+        // Laisser vide [] pour désactiver la restriction.
+        'allowed_admins' => [
+            // 'prenom.nom',
+            // 'prenom.nom@site.com',
+        ],
     ],
     'mail' => [
         'enabled' => false,

@@ -60,6 +60,10 @@ final class Mailer
             '',
             'Date limite de réponse : ' . $displayExpiresAt,
             '',
+            'Protection de vos données personnelles :',
+            'Nous mettons en œuvre des mesures de sécurité strictes pour protéger vos données.',
+            'Elles sont utilisées uniquement pour la gestion de votre dossier de bénévolat.',
+            '',
             'Cordialement,',
             $signatureName,
         ]);
@@ -68,14 +72,20 @@ final class Mailer
         $safeInviteLink = htmlspecialchars($inviteLink, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $safeExpiresAt = htmlspecialchars($displayExpiresAt, ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
         $htmlBody = <<<HTML
-<div style="margin:0;padding:0;background-color:#f6f8fc;font-family:Arial,sans-serif;color:#1f2937;">
+<div style="margin:0;padding:0;background:linear-gradient(135deg,#f1e7fd 0%,#d8bdfa 100%);font-family:'Titillium Web','Segoe UI',Arial,sans-serif;color:#1f2937;">
     <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="padding:24px 12px;">
         <tr>
             <td align="center">
-                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;">
+                <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="max-width:600px;background:#ffffff;border-radius:14px;overflow:hidden;border:1px solid #d8bdfa;">
+                    <tr>
+                        <td style="padding:18px 24px;background:#290654;color:#f1e7fd;">
+                            <p style="margin:0;font-size:12px;letter-spacing:.08em;text-transform:uppercase;font-weight:700;">Groupe Speed Cloud</p>
+                            <p style="margin:6px 0 0 0;font-size:14px;opacity:.95;">Invitation sécurisée</p>
+                        </td>
+                    </tr>
                     <tr>
                         <td style="padding:28px 24px 8px 24px;">
-                            <h1 style="margin:0;font-size:22px;line-height:1.3;color:#111827;">Votre candidature est acceptée</h1>
+                            <h1 style="margin:0;font-size:22px;line-height:1.3;color:#290654;">Votre candidature est acceptée</h1>
                         </td>
                     </tr>
                     <tr>
@@ -86,7 +96,7 @@ final class Mailer
                     </tr>
                     <tr>
                         <td style="padding:20px 24px;text-align:center;">
-                            <a href="{$safeInviteLink}" style="display:inline-block;background:#2563eb;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;line-height:1;padding:14px 22px;border-radius:10px;">Accéder au formulaire</a>
+                            <a href="{$safeInviteLink}" style="display:inline-block;background:#8a4dfd;color:#ffffff;text-decoration:none;font-weight:700;font-size:15px;line-height:1;padding:14px 22px;border-radius:10px;">Accéder au formulaire</a>
                         </td>
                     </tr>
                     <tr>
@@ -96,7 +106,15 @@ final class Mailer
                         </td>
                     </tr>
                     <tr>
-                        <td style="padding:16px 24px;background:#f9fafb;font-size:14px;color:#4b5563;">
+                        <td style="padding:0 24px 22px 24px;">
+                            <div style="border:1px solid #d8bdfa;background:#f7f1fe;border-radius:10px;padding:12px 14px;color:#290654;font-size:13px;line-height:1.55;">
+                                <p style="margin:0 0 8px 0;"><strong>Protection de vos données personnelles</strong></p>
+                                <p style="margin:0;">Nous mettons en œuvre des mesures de sécurité strictes pour protéger vos données. Elles sont utilisées uniquement pour la gestion de votre dossier de bénévolat et accessibles seulement aux personnes autorisées.</p>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding:16px 24px;background:#f9f5ff;font-size:14px;color:#592aa9;">
                             Cordialement,<br>{$safeSignatureName}
                         </td>
                     </tr>

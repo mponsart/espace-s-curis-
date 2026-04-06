@@ -55,6 +55,10 @@ sqlite3 database/database.sqlite < database/schema.sql
 - `google.client_id` et `google.client_secret`
 - `google.redirect_uri` : doit pointer vers `/callback.php`
 - `google.hosted_domain` : laisser vide pour autoriser tous les domaines Google, ou définir un domaine précis
+- `google.allowed_admins` : liste blanche optionnelle des comptes autorisés à l'admin
+  - Exemple : `['prenom.nom']` pour autoriser ce local-part quel que soit le domaine
+  - Exemple : `['prenom.nom@site.com']` pour autoriser uniquement cette adresse exacte
+  - Laisser `[]` pour désactiver ce filtre
 - `mail.enabled` : `true` pour activer l'envoi d'email
 - `mail.from_email` : adresse expéditeur (ex: `no-reply@votre-domaine.com`)
 - `mail.from_name` : nom expéditeur affiché
