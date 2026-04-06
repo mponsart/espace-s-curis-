@@ -114,58 +114,6 @@
                     </div>
                 </div>
 
-                <div class="rounded-[2rem] border border-slate-800 bg-white/5 p-5">
-                    <h2 class="text-base font-bold text-slate-100">Informations complémentaires</h2>
-                    <p class="mt-1 text-sm text-slate-200">Ces informations nous aident à vous positionner au mieux. (Optionnel)</p>
-
-                    <div class="mt-5 grid gap-4 sm:grid-cols-2">
-                        <div>
-                            <label for="tshirt_size" class="mb-2 block text-sm font-semibold text-slate-200">Taille de t-shirt</label>
-                            <select id="tshirt_size" name="tshirt_size" <?= $disabledAttr ?> class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none focus:border-brand-500<?= $disabledClass ?>">
-                                <option value="">Sélectionner</option>
-                                <?php foreach (['XS', 'S', 'M', 'L', 'XL', 'XXL'] as $size): ?>
-                                    <option value="<?= e($size) ?>" <?= (string) ($values['tshirt_size'] ?? '') === $size ? 'selected' : '' ?>><?= e($size) ?></option>
-                                <?php endforeach; ?>
-                            </select>
-                        </div>
-                        <div class="flex flex-col justify-end gap-3">
-                            <label class="flex items-start gap-3 rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-sm text-slate-200<?= $disabledClass ?>">
-                                <input type="checkbox" name="has_driving_license" value="1" <?= (int) ($values['has_driving_license'] ?? 0) === 1 ? 'checked' : '' ?> <?= $disabledAttr ?> class="mt-1 h-4 w-4 rounded border-slate-600 text-brand-500 focus:ring-brand-400">
-                                <span>J'ai le permis de conduire</span>
-                            </label>
-                            <label class="flex items-start gap-3 rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-sm text-slate-200<?= $disabledClass ?>">
-                                <input type="checkbox" name="has_vehicle" value="1" <?= (int) ($values['has_vehicle'] ?? 0) === 1 ? 'checked' : '' ?> <?= $disabledAttr ?> class="mt-1 h-4 w-4 rounded border-slate-600 text-brand-500 focus:ring-brand-400">
-                                <span>Je peux venir avec un véhicule</span>
-                            </label>
-                        </div>
-
-                        <div class="sm:col-span-2">
-                            <label for="availability_notes" class="mb-2 block text-sm font-semibold text-slate-200">Disponibilités</label>
-                            <textarea id="availability_notes" name="availability_notes" rows="3" <?= $disabledAttr ?> placeholder="Ex : soirs en semaine, samedi matin, du 10 au 12 mai..." class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-brand-500<?= $disabledClass ?>"><?= e((string) ($values['availability_notes'] ?? '')) ?></textarea>
-                        </div>
-
-                        <div class="sm:col-span-2">
-                            <label for="skills" class="mb-2 block text-sm font-semibold text-slate-200">Compétences / expériences</label>
-                            <textarea id="skills" name="skills" rows="3" <?= $disabledAttr ?> placeholder="Ex : accueil, logistique, cuisine, secourisme, animation..." class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-brand-500<?= $disabledClass ?>"><?= e((string) ($values['skills'] ?? '')) ?></textarea>
-                        </div>
-
-                        <div class="sm:col-span-2">
-                            <label for="dietary_preferences" class="mb-2 block text-sm font-semibold text-slate-200">Régime alimentaire</label>
-                            <input id="dietary_preferences" name="dietary_preferences" value="<?= e((string) ($values['dietary_preferences'] ?? '')) ?>" <?= $disabledAttr ?> placeholder="Ex : végétarien, sans porc, halal..." class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-brand-500<?= $disabledClass ?>">
-                        </div>
-
-                        <div class="sm:col-span-2">
-                            <label for="allergies" class="mb-2 block text-sm font-semibold text-slate-200">Allergies (si applicable)</label>
-                            <input id="allergies" name="allergies" value="<?= e((string) ($values['allergies'] ?? '')) ?>" <?= $disabledAttr ?> placeholder="Ex : arachides, gluten..." class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-brand-500<?= $disabledClass ?>">
-                        </div>
-
-                        <div class="sm:col-span-2">
-                            <label for="notes" class="mb-2 block text-sm font-semibold text-slate-200">Commentaire</label>
-                            <textarea id="notes" name="notes" rows="3" <?= $disabledAttr ?> placeholder="Toute information utile (optionnel)..." class="w-full rounded-2xl border border-slate-700 bg-slate-950 px-4 py-3 text-slate-100 outline-none placeholder:text-slate-500 focus:border-brand-500<?= $disabledClass ?>"><?= e((string) ($values['notes'] ?? '')) ?></textarea>
-                        </div>
-                    </div>
-                </div>
-
                 <label class="flex items-start gap-3 rounded-2xl border border-slate-700 bg-slate-950 px-4 py-4 text-sm text-slate-200<?= $disabledClass ?>">
                     <input type="checkbox" name="consent_rgpd" value="1" <?= (int) $values['consent_rgpd'] === 1 ? 'checked' : '' ?> <?= $disabledAttr ?> class="mt-1 h-4 w-4 rounded border-slate-600 text-brand-500 focus:ring-brand-400">
                     <span>J'accepte le traitement de mes données pour la gestion de mon engagement bénévole.</span>
