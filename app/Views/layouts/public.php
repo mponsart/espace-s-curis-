@@ -15,34 +15,37 @@
             theme: {
                 extend: {
                     colors: {
-                        primary:    '#d0bcff',
-                        'on-primary': '#381e72',
-                        'primary-container': '#4f378b',
-                        'on-primary-container': '#eaddff',
-                        secondary:  '#cbc2db',
-                        'secondary-container': '#4a4458',
-                        'on-secondary-container': '#e8def8',
-                        surface:    '#141218',
-                        'on-surface': '#e6e1e5',
-                        'surface-variant': '#49454e',
-                        'on-surface-variant': '#cac4d0',
-                        'surface-container-lowest': '#0f0d13',
-                        'surface-container-low': '#1d1b20',
-                        'surface-container': '#211f26',
-                        'surface-container-high': '#2b2930',
-                        'surface-container-highest': '#36343b',
-                        'inverse-surface': '#e6e1e5',
-                        'inverse-on-surface': '#313033',
-                        'inverse-primary': '#6d2ef5',
-                        outline:    '#938f99',
-                        'outline-variant': '#49454e',
-                        error:      '#f2b8b5',
-                        'on-error': '#601410',
-                        'error-container': '#8c1d18',
-                        'on-error-container': '#f9dedc',
-                        success:    '#6dd58c',
-                        'success-container': '#0d5927',
-                        'on-success-container': '#b3f0c8',
+                        primary:    '#6d2ef5',
+                        'on-primary': '#ffffff',
+                        'primary-container': '#ecdcff',
+                        'on-primary-container': '#22006c',
+                        secondary:  '#625b71',
+                        'on-secondary': '#ffffff',
+                        'secondary-container': '#e8def8',
+                        'on-secondary-container': '#1d192b',
+                        tertiary:   '#7e5260',
+                        'tertiary-container': '#ffd8e4',
+                        'on-tertiary-container': '#31111d',
+                        surface:    '#fffbff',
+                        'on-surface': '#1c1b1f',
+                        'surface-variant': '#e7e0eb',
+                        'on-surface-variant': '#49454e',
+                        'surface-container-lowest': '#ffffff',
+                        'surface-container-low': '#f7f2fa',
+                        'surface-container': '#f1ecf4',
+                        'surface-container-high': '#ece6f0',
+                        'surface-container-highest': '#e6e0e9',
+                        'inverse-surface': '#313033',
+                        'inverse-on-surface': '#f4eff4',
+                        outline:    '#7a7289',
+                        'outline-variant': '#cac4d0',
+                        error:      '#b3261e',
+                        'on-error': '#ffffff',
+                        'error-container': '#f9dedc',
+                        'on-error-container': '#410e0b',
+                        success:    '#1a6b34',
+                        'success-container': '#b3f0c8',
+                        'on-success-container': '#002110',
                     },
                     fontFamily: {
                         sans: ['Roboto', 'ui-sans-serif', 'system-ui'],
@@ -61,7 +64,7 @@
     </script>
 
     <style>
-        :root { --md-surface: #141218; }
+        :root { --md-surface: #f1ecf4; }
         .material-symbols-rounded {
             font-family: 'Material Symbols Rounded';
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -81,16 +84,16 @@
         .state-layer:focus-visible::after { opacity: .12; }
         .state-layer:active::after { opacity: .12; }
 
-        /* MD3 outlined text field (dark) */
+        /* MD3 outlined text field (light) */
         .md-field { position: relative; }
         .md-field input,
         .md-field select,
         .md-field textarea {
             width: 100%; padding: 16px;
             background: transparent;
-            border: 1px solid #938f99;
+            border: 1px solid #7a7289;
             border-radius: 4px;
-            color: #e6e1e5;
+            color: #1c1b1f;
             font-size: 16px;
             font-family: inherit;
             outline: none;
@@ -100,20 +103,20 @@
         .md-field input:focus,
         .md-field select:focus,
         .md-field textarea:focus {
-            border-color: #d0bcff;
+            border-color: #6d2ef5;
             border-width: 2px;
         }
         .md-field input:disabled,
         .md-field select:disabled,
         .md-field textarea:disabled {
-            border-color: rgba(147,143,153,0.38);
-            color: rgba(230,225,229,0.38);
+            border-color: rgba(122,114,137,0.38);
+            color: rgba(28,27,31,0.38);
             cursor: not-allowed;
         }
         .md-field label {
             position: absolute; left: 12px; top: 50%;
             transform: translateY(-50%);
-            font-size: 16px; color: #938f99;
+            font-size: 16px; color: #49454e;
             pointer-events: none;
             transition: all 150ms;
             background: var(--md-surface);
@@ -131,28 +134,22 @@
         .md-field input:focus ~ label,
         .md-field select:focus ~ label,
         .md-field textarea:focus ~ label {
-            color: #d0bcff;
+            color: #6d2ef5;
         }
         /* Date input always shows the label at top */
         .md-field input[type="date"] ~ label { top: 0; font-size: 12px; }
-        .md-field input[type="date"]:focus ~ label { color: #d0bcff; }
+        .md-field input[type="date"]:focus ~ label { color: #6d2ef5; }
         /* Select option styling */
-        .md-field select option { background: #211f26; color: #e6e1e5; }
+        .md-field select option { background: #f1ecf4; color: #1c1b1f; }
 
         /* Custom scrollbar */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: #49454e; border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: #938f99; }
+        ::-webkit-scrollbar-thumb { background: #cac4d0; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #7a7289; }
     </style>
 </head>
-<body class="min-h-screen bg-surface font-sans antialiased text-on-surface">
-
-    <!-- Subtle tonal background -->
-    <div class="pointer-events-none fixed inset-0 -z-10"
-         style="background: radial-gradient(ellipse 80% 50% at 20% 0%, rgba(109,46,245,0.18) 0%, transparent 60%),
-                            radial-gradient(ellipse 60% 40% at 80% 100%, rgba(208,188,255,0.10) 0%, transparent 55%);">
-    </div>
+<body class="min-h-screen bg-surface-container-low font-sans antialiased text-on-surface">
 
     <main class="mx-auto flex min-h-screen w-full max-w-5xl flex-col items-center justify-center gap-8 px-4 py-10 sm:px-6 lg:px-8"
           role="main">
