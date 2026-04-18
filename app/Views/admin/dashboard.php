@@ -1,60 +1,119 @@
-<section class="space-y-8">
+<section class="space-y-6">
     <?php require app()->basePath('app/Views/partials/flash.php'); ?>
 
-    <div class="rounded-[2rem] bg-gradient-to-r from-brand-950 via-brand-900 to-brand-700 p-8 text-white shadow-xl shadow-brand-900/35">
-        <p class="text-sm uppercase tracking-[0.35em] text-brand-100">Administration</p>
-        <h2 class="mt-4 text-3xl font-extrabold sm:text-4xl">Bonjour <?= e($user['name']) ?></h2>
-        <p class="mt-3 max-w-2xl text-sm text-slate-200 sm:text-base">Gérez les invitations, suivez les réponses et exportez les fiches bénévoles depuis un espace simple et sécurisé.</p>
+    <!-- ── Greeting banner ──────────────────────────────────────────────── -->
+    <div class="relative overflow-hidden rounded-xl bg-primary-container px-6 py-6 shadow-elev1">
+        <!-- Decorative circles -->
+        <div class="pointer-events-none absolute -right-10 -top-10 h-48 w-48 rounded-full bg-primary/10"></div>
+        <div class="pointer-events-none absolute -bottom-8 right-24 h-32 w-32 rounded-full bg-primary/8"></div>
+
+        <p class="text-xs font-semibold uppercase tracking-widest text-on-primary-container/70">Administration</p>
+        <h2 class="mt-2 text-2xl font-bold text-on-primary-container sm:text-3xl">
+            Bonjour, <?= e($user['name']) ?> 👋
+        </h2>
+        <p class="mt-2 max-w-xl text-sm text-on-primary-container/80 leading-relaxed">
+            Gérez les invitations, suivez les réponses et exportez les fiches bénévoles depuis cet espace sécurisé.
+        </p>
     </div>
 
-    <div class="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-        <article class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200">
-            <p class="text-sm font-medium text-slate-500">Total des bénévoles</p>
-            <p class="mt-3 text-4xl font-extrabold text-slate-900"><?= e((string) $totalVolunteers) ?></p>
-        </article>
-        <article class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200">
-            <p class="text-sm font-medium text-slate-500">Invitations rapides</p>
-            <a href="<?= e(url('invite.php')) ?>" class="mt-4 inline-flex rounded-2xl bg-brand-500 px-4 py-3 text-sm font-semibold text-white shadow-lg shadow-brand-700/30 hover:bg-brand-700">Créer un lien d'invitation</a>
-        </article>
-        <article class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200">
-            <p class="text-sm font-medium text-slate-500">Export</p>
-            <div class="mt-4 flex flex-wrap gap-3">
-                <a href="<?= e(url('export-volunteers.php')) ?>" class="inline-flex rounded-2xl border border-slate-300 px-4 py-3 text-sm font-semibold text-slate-700 hover:bg-slate-100">Télécharger le CSV</a>
-                <a href="<?= e(url('export-volunteers-pdf.php')) ?>" class="inline-flex rounded-2xl bg-brand-900 px-4 py-3 text-sm font-semibold text-white hover:bg-brand-700">Télécharger le PDF</a>
+    <!-- ── Stat + quick-action cards ────────────────────────────────────── -->
+    <div class="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+
+        <!-- Stat card -->
+        <article class="flex flex-col gap-4 rounded-xl bg-surface-container-lowest px-6 py-5 shadow-elev1"
+                 aria-label="Statistique bénévoles">
+            <div class="flex items-center justify-between">
+                <p class="text-sm font-medium text-on-surface-variant">Total bénévoles</p>
+                <span class="flex h-9 w-9 items-center justify-center rounded-full bg-secondary-container text-on-secondary-container">
+                    <span class="material-symbols-rounded text-xl"
+                          style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 20">group</span>
+                </span>
             </div>
+            <p class="text-5xl font-bold text-on-surface tracking-tight">
+                <?= e((string) $totalVolunteers) ?>
+            </p>
         </article>
-    </div>
 
-    <section class="rounded-[2rem] bg-white p-6 shadow-sm ring-1 ring-slate-200">
-        <div class="flex items-center justify-between gap-4">
+        <!-- Invite card -->
+        <article class="flex flex-col justify-between gap-6 rounded-xl bg-surface-container-lowest px-6 py-5 shadow-elev1">
             <div>
-                <h3 class="text-xl font-bold text-slate-900">Dernières fiches créées</h3>
-                <p class="text-sm text-slate-500">Aperçu des fiches bénévoles les plus récentes.</p>
+                <p class="text-sm font-medium text-on-surface-variant">Invitations</p>
+                <p class="mt-1 text-base font-semibold text-on-surface">Invitez de nouveaux bénévoles</p>
             </div>
-            <a href="<?= e(url('volunteers.php')) ?>" class="text-sm font-semibold text-brand-700 hover:text-brand-900">Voir tout</a>
+            <a href="<?= e(url('invite.php')) ?>"
+               class="state-layer inline-flex items-center gap-2 self-start rounded-full bg-primary px-5 py-2.5
+                      text-sm font-semibold text-on-primary shadow-elev1 transition-shadow hover:shadow-elev2">
+                <span class="material-symbols-rounded text-lg">add_link</span>
+                Créer un lien
+            </a>
+        </article>
+
+        <!-- Export card -->
+        <article class="flex flex-col justify-between gap-6 rounded-xl bg-surface-container-lowest px-6 py-5 shadow-elev1">
+            <div>
+                <p class="text-sm font-medium text-on-surface-variant">Export</p>
+                <p class="mt-1 text-base font-semibold text-on-surface">Télécharger les fiches</p>
+            </div>
+            <div class="flex flex-wrap gap-2">
+                <a href="<?= e(url('export-volunteers.php')) ?>"
+                   class="state-layer inline-flex items-center gap-2 rounded-full border border-outline
+                          px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-on-surface/5">
+                    <span class="material-symbols-rounded text-lg">table_view</span>
+                    CSV
+                </a>
+                <a href="<?= e(url('export-volunteers-pdf.php')) ?>"
+                   class="state-layer inline-flex items-center gap-2 rounded-full border border-outline
+                          px-4 py-2 text-sm font-medium text-on-surface-variant hover:bg-on-surface/5">
+                    <span class="material-symbols-rounded text-lg">picture_as_pdf</span>
+                    PDF
+                </a>
+            </div>
+        </article>
+    </div>
+
+    <!-- ── Recent volunteers ─────────────────────────────────────────────── -->
+    <section class="rounded-xl bg-surface-container-lowest shadow-elev1 overflow-hidden">
+        <div class="flex items-center justify-between gap-4 px-6 py-5 border-b border-outline-variant">
+            <div>
+                <h3 class="text-base font-semibold text-on-surface">Dernières fiches créées</h3>
+                <p class="text-sm text-on-surface-variant">Aperçu des bénévoles les plus récents.</p>
+            </div>
+            <a href="<?= e(url('volunteers.php')) ?>"
+               class="state-layer inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-medium
+                      text-primary hover:bg-primary/8">
+                Voir tout
+                <span class="material-symbols-rounded text-base">arrow_forward</span>
+            </a>
         </div>
 
-        <div class="mt-6 overflow-hidden rounded-2xl border border-slate-200">
-            <table class="min-w-full divide-y divide-slate-200 text-left text-sm">
-                <thead class="bg-slate-50 text-slate-500">
-                    <tr>
-                        <th class="px-4 py-3 font-semibold">Nom</th>
-                        <th class="px-4 py-3 font-semibold">Email</th>
-                        <th class="px-4 py-3 font-semibold">Créé le</th>
+        <!-- Table -->
+        <div class="overflow-x-auto">
+            <table class="min-w-full text-sm" role="table">
+                <thead>
+                    <tr class="bg-surface-container">
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Nom</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Email</th>
+                        <th scope="col" class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Créé le</th>
                     </tr>
                 </thead>
-                <tbody class="divide-y divide-slate-100 bg-white">
-                    <?php foreach ($recentVolunteers as $volunteer): ?>
-                        <tr>
-                            <td class="px-4 py-3 font-medium text-slate-900"><?= e(trim(($volunteer['first_name'] ?? '') . ' ' . ($volunteer['last_name'] ?? ''))) ?: 'Invitation en attente' ?></td>
-                            <td class="px-4 py-3 text-slate-600"><?= e($volunteer['email']) ?></td>
-                            <td class="px-4 py-3 text-slate-600"><?= e($volunteer['created_at']) ?></td>
-                        </tr>
+                <tbody>
+                    <?php foreach ($recentVolunteers as $i => $volunteer): ?>
+                    <tr class="border-t border-outline-variant transition-colors hover:bg-surface-container-low">
+                        <td class="px-6 py-4 font-medium text-on-surface">
+                            <?= e(trim(($volunteer['first_name'] ?? '') . ' ' . ($volunteer['last_name'] ?? ''))) ?: '<span class="text-on-surface-variant italic">Invitation en attente</span>' ?>
+                        </td>
+                        <td class="px-6 py-4 text-on-surface-variant"><?= e($volunteer['email']) ?></td>
+                        <td class="px-6 py-4 text-on-surface-variant"><?= e($volunteer['created_at']) ?></td>
+                    </tr>
                     <?php endforeach; ?>
                     <?php if ($recentVolunteers === []): ?>
-                        <tr>
-                            <td colspan="3" class="px-4 py-6 text-center text-slate-500">Aucun bénévole pour le moment.</td>
-                        </tr>
+                    <tr>
+                        <td colspan="3" class="px-6 py-10 text-center">
+                            <span class="material-symbols-rounded mx-auto mb-3 block text-4xl text-on-surface-variant/40"
+                                  style="font-variation-settings:'FILL' 0,'wght' 300,'GRAD' 0,'opsz' 48">group</span>
+                            <p class="text-sm text-on-surface-variant">Aucun bénévole pour le moment.</p>
+                        </td>
+                    </tr>
                     <?php endif; ?>
                 </tbody>
             </table>

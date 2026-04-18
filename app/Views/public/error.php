@@ -1,6 +1,23 @@
-<section class="w-full max-w-2xl rounded-[2rem] border border-brand-100/20 bg-brand-950/80 p-8 text-center shadow-2xl shadow-brand-950/40 backdrop-blur">
-    <div class="mx-auto flex h-16 w-16 items-center justify-center rounded-3xl bg-brand-500/15 text-3xl text-brand-100">!</div>
-    <h1 class="mt-6 text-3xl font-extrabold text-white">Erreur</h1>
-    <p class="mt-3 text-sm text-brand-100/90"><?= e($message ?? 'Une erreur est survenue.') ?></p>
-    <a href="<?= e(url('auth.php')) ?>" class="mt-8 inline-flex rounded-2xl bg-brand-100 px-5 py-3 text-sm font-semibold text-brand-950 hover:bg-white">Retour</a>
-</section>
+<div class="w-full max-w-sm rounded-xl bg-surface-container shadow-elev3 overflow-hidden text-center">
+    <!-- Icon header -->
+    <div class="flex flex-col items-center gap-3 bg-error-container px-6 pt-8 pb-6">
+        <span class="flex h-16 w-16 items-center justify-center rounded-full bg-error/15">
+            <span class="material-symbols-rounded text-4xl text-on-error-container"
+                  style="font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 48">error</span>
+        </span>
+        <h1 class="text-xl font-bold text-on-error-container">Erreur</h1>
+    </div>
+
+    <!-- Body -->
+    <div class="px-6 py-6 flex flex-col items-center gap-6">
+        <p class="text-sm text-on-surface-variant leading-relaxed">
+            <?= e($message ?? 'Une erreur est survenue.') ?>
+        </p>
+        <a href="<?= e(url('auth.php')) ?>"
+           class="state-layer inline-flex items-center gap-2 rounded-full bg-primary px-6 py-3
+                  text-sm font-semibold text-on-primary shadow-elev1 transition-shadow hover:shadow-elev2">
+            <span class="material-symbols-rounded text-xl">arrow_back</span>
+            Retour
+        </a>
+    </div>
+</div>
