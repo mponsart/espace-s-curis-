@@ -61,6 +61,7 @@
     </script>
 
     <style>
+        :root { --md-surface: #141218; }
         .material-symbols-rounded {
             font-family: 'Material Symbols Rounded';
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -115,7 +116,7 @@
             font-size: 16px; color: #938f99;
             pointer-events: none;
             transition: all 150ms;
-            background: #141218;
+            background: var(--md-surface);
             padding: 0 4px;
         }
         .md-field textarea ~ label { top: 16px; transform: none; }

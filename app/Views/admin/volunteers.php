@@ -50,8 +50,12 @@
                             <?php endif; ?>
                         </td>
                         <td class="px-6 py-4 font-medium text-on-surface">
-                            <?= e(trim(($volunteer['first_name'] ?? '') . ' ' . ($volunteer['last_name'] ?? ''))) ?: '<span class="italic text-on-surface-variant">Invitation en attente</span>' ?>
-                        </td>
+                            <?php $name = trim(($volunteer['first_name'] ?? '') . ' ' . ($volunteer['last_name'] ?? '')); ?>
+                            <?php if ($name !== ''): ?>
+                                <?= e($name) ?>
+                            <?php else: ?>
+                                <span class="italic text-on-surface-variant">Invitation en attente</span>
+                            <?php endif; ?></td>
                         <td class="px-6 py-4 text-on-surface-variant"><?= e($volunteer['email']) ?></td>
                         <td class="px-6 py-4 text-on-surface-variant"><?= e($volunteer['token_expires_at']) ?></td>
                         <td class="px-6 py-4">

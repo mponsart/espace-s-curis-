@@ -100,7 +100,12 @@
                     <?php foreach ($recentVolunteers as $i => $volunteer): ?>
                     <tr class="border-t border-outline-variant transition-colors hover:bg-surface-container-low">
                         <td class="px-6 py-4 font-medium text-on-surface">
-                            <?= e(trim(($volunteer['first_name'] ?? '') . ' ' . ($volunteer['last_name'] ?? ''))) ?: '<span class="text-on-surface-variant italic">Invitation en attente</span>' ?>
+                            <?php $name = trim(($volunteer['first_name'] ?? '') . ' ' . ($volunteer['last_name'] ?? '')); ?>
+                            <?php if ($name !== ''): ?>
+                                <?= e($name) ?>
+                            <?php else: ?>
+                                <span class="text-on-surface-variant italic">Invitation en attente</span>
+                            <?php endif; ?>
                         </td>
                         <td class="px-6 py-4 text-on-surface-variant"><?= e($volunteer['email']) ?></td>
                         <td class="px-6 py-4 text-on-surface-variant"><?= e($volunteer['created_at']) ?></td>
